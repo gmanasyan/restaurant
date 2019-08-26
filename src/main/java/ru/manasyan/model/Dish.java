@@ -1,9 +1,8 @@
 package ru.manasyan.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,21 +15,23 @@ public class Dish extends AbstractBaseEntity {
     @Column(name = "price", nullable = false)
     private int price;
 
-    @Column(name = "restaurant_id", nullable = false)
-    private int restaurant_id;
+    //@Column(name = "restaurant_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    @NotNull
+    private Restaurant restaurant;
 
-    @Column(name = "date_time", nullable = false)
-    private LocalDateTime dateTime;
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
 
     public Dish() {
     }
 
-    public Dish(Integer id, String name, int price, int restaurant_id, LocalDateTime dateTime) {
+    public Dish(Integer id, String name, int price, LocalDate date) {
         super(id);
         this.name = name;
         this.price = price;
-        this.restaurant_id = restaurant_id;
-        this.dateTime = dateTime;
+        this.date = date;
     }
 
     public String getName() {
@@ -49,30 +50,30 @@ public class Dish extends AbstractBaseEntity {
         this.price = price;
     }
 
-    public int getRestaurant_id() {
-        return restaurant_id;
+    public Restaurant getRestaurant_id() {
+        return restaurant;
     }
 
-    public void setRestaurant_id(int restaurant_id) {
-        this.restaurant_id = restaurant_id;
+    public void setRestaurant_id(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDate getDateTime() {
+        return date;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDateTime(LocalDate date) {
+        this.date = date;
     }
 
     @Override
     public String toString() {
         return "Dish{" +
                 "id=" + id +
-                ", dateTime=" + dateTime +
+                ", dateTime=" + date +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", restaurant=" + restaurant_id +
+                ", restaurant id=" + restaurant.id +
                 '}';
     }
 

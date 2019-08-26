@@ -6,6 +6,7 @@ import ru.manasyan.web.dish.DishRestController;
 import ru.manasyan.web.user.AdminRestController;
 
 
+import java.time.LocalDate;
 import java.util.Arrays;
 
 public class SpringMain {
@@ -22,12 +23,12 @@ public class SpringMain {
             //System.out.println(mealRestController.getAll().toString());
             //System.out.println(mealRestController.save(new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500)));
 
-            System.out.println("Dish selected: " + dishRestController.get(100005));
+            //System.out.println("Dish selected: " + dishRestController.get(100005));
+
+            System.out.println("Today Dishs: " + dishRestController.getAll());
+            System.out.println("Today Dishs: " + dishRestController.getAllByDate(LocalDate.of(2019,8,15)));
+
         }
-
-
-
-
 
     }
 }

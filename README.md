@@ -73,6 +73,9 @@ Request:
 Request:
  <pre>curl "SERVER_PATH/rest/history"</pre>
 
+### 01.4. User can register (Optional) 
+- User can register 
+
  
  
 <br/><br/><br/>
