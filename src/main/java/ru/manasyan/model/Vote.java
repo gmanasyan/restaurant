@@ -4,53 +4,54 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "restaurant_id", "date_time"}, name = "votes_unique_restaurant_datetime_user_idx")})
+@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"}, name = "votes_unique_date_user_idx")})
 public class Vote extends AbstractBaseEntity {
 
     @Column(name = "user_id", nullable = false)
-    private String user_id;
+    private int user_id;
 
     @Column(name = "restaurant_id", nullable = false)
-    private String restaurant_id;
+    private int restaurant_id;
 
-    @Column(name = "date_time", nullable = false)
-    private LocalDateTime date_time;
+    @Column(name = "date", nullable = false)
+    private LocalDate date;
 
     public Vote() {
     }
 
-    public Vote(Integer id, String user_id, String restaurant_id, LocalDateTime date_time) {
+    public Vote(Integer id, int user_id, int restaurant_id, LocalDate date) {
         super(id);
         this.user_id = user_id;
         this.restaurant_id = restaurant_id;
-        this.date_time = date_time;
+        this.date = date;
     }
 
-    public String getUser_id() {
+    public int getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(String user_id) {
+    public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
 
-    public String getRestaurant_id() {
+    public int getRestaurant_id() {
         return restaurant_id;
     }
 
-    public void setRestaurant_id(String restaurant_id) {
+    public void setRestaurant_id(int restaurant_id) {
         this.restaurant_id = restaurant_id;
     }
 
-    public LocalDateTime getDate_time() {
-        return date_time;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDate_time(LocalDateTime date_time) {
-        this.date_time = date_time;
+    public void setDate(LocalDate date_time) {
+        this.date = date;
     }
 }

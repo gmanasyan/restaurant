@@ -25,9 +25,10 @@ public class SpringMain {
 
             //System.out.println("Dish selected: " + dishRestController.get(100005));
 
-            System.out.println("Today Dishs: " + dishRestController.getAll());
-            System.out.println("Today Dishs: " + dishRestController.getAllByDate(LocalDate.of(2019,8,15)));
-
+            //System.out.println("Today Dishs: " + dishRestController.getAll());
+            //System.out.println("16 avg Dishs: " + dishRestController.getAllByDate(LocalDate.of(2019,8,15)));
+            //System.out.println("Vote for rest: " + dishRestController.vote(100004));
+            //System.out.println("Can vote user?: " + dishRestController.canVote());
         }
 
     }

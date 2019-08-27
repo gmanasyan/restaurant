@@ -23,10 +23,10 @@ Build a voting system for deciding where to have lunch.
 
 ### 01.1. View lunch menu
 - User can view lunch menu from all restaurants by 
-<br/>GET SERVER_PATH/rest/restaurants/
+<br/>GET SERVER_PATH/rest/dish_menu/
 
 Request:
- <pre>curl "SERVER_PATH/rest/restaurants/"</pre>
+ <pre>curl "SERVER_PATH/rest/dish_menu/"</pre>
 
 Response example for 2 restaurants each have menu with 2 dishes:
  <pre>
@@ -62,10 +62,10 @@ Response example for 2 restaurants each have menu with 2 dishes:
 
 
 ### 01.2. Vote for restaurant 
-- User can vote for restourant by POST SERVER_PATH/rest/vote/{restaurant_id} 
+- User can vote for restourant by POST SERVER_PATH/rest/dish_menu/vote/{restaurant_id} 
 
 Request:
- <pre>curl "SERVER_PATH/rest/vote/34"</pre>
+ <pre>curl "SERVER_PATH/rest/dish_menu/vote/34"</pre>
 
 ### 01.3. View vote history (Optional) 
 - User can view the his votes GET SERVER_PATH/rest/history/ 
