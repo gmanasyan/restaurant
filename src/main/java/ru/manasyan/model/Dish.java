@@ -15,7 +15,8 @@ public class Dish extends AbstractBaseEntity {
     @Column(name = "price", nullable = false)
     private int price;
 
-    //@Column(name = "restaurant_id", nullable = false)
+//    @Column(name = "restaurant_id", nullable = false)
+//    private int restaurant_id;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @NotNull
@@ -50,11 +51,11 @@ public class Dish extends AbstractBaseEntity {
         this.price = price;
     }
 
-    public Restaurant getRestaurant_id() {
+    public Restaurant getRestaurant() {
         return restaurant;
     }
 
-    public void setRestaurant_id(Restaurant restaurant) {
+    public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
 

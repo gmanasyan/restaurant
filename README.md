@@ -21,51 +21,41 @@ Build a voting system for deciding where to have lunch.
 
 ## 01. User flow 
 
-### 01.1. View lunch menu
+### + 01.1. View lunch menu
 - User can view lunch menu from all restaurants by 
-<br/>GET SERVER_PATH/rest/dish_menu/
+<br/>GET SERVER_PATH/rest/restaurants/
 
 Request:
- <pre>curl "SERVER_PATH/rest/dish_menu/"</pre>
+ <pre>curl "SERVER_PATH/rest/restaurants/"</pre>
 
-Response example for 2 restaurants each have menu with 2 dishes:
- <pre>
-    [{
-      "id": 100001,
-      "dateTime": "2015-05-31T20:00:00",
-      "name": "Dish_1",
-      "price": 25,
-      "restaurant": 1
-   },
-      {
-      "id": 100002,
-      "dateTime": "2015-05-31T20:00:00",
-      "name": "Dish_2",
-      "price": 5,
-      "restaurant": 1
-   },
-     {
-     "id": 100003,
-     "dateTime": "2015-05-31T20:00:00",
-     "name": "Dish_1",
-     "price": 10,
-     "restaurant": 2
-   },
-     {
-     "id": 100004,
-     "dateTime": "2015-05-31T20:00:00",
-     "name": "Dish_2",
-     "price": 15,
-     "restaurant": 2
-   }]
+Response example for 2 restaurants each have menu with 3 dishes:
+ <pre> {
+ "Restaurant{id=100006, dateTime=2019-08-16T13:00, name='White Rabbit'}":
+ [
+ {"id":100013,"name":"Squash tabbouleh ","price":1275},
+ {"id":100014,"name":"The Ivy vegetarian Shepherds Pie","price":1433},
+ {"id":100015,"name":"Linguine primavera ","price":1600}
+ ],
+ "Restaurant{id=100005, dateTime=2019-08-16T13:00, name='Cafe Pushkin'}":
+ [
+ {"id":100007,"name":"Summer squash soup with creamed feta biscuits","price":875},
+ {"id":100008,"name":"Girolle, lemon & parsley risotto","price":1500},
+ {"id":100009,"name":"Mediterranean salad with quinoa, beetroot, datterini & olives","price":2250}
+ ]
+ }
    </pre>
 
 
-### 01.2. Vote for restaurant 
-- User can vote for restourant by POST SERVER_PATH/rest/dish_menu/vote/{restaurant_id} 
+### + 01.2. Vote for restaurant 
+- User can vote for restourant by POST SERVER_PATH/rest/restaurants/vote/{restaurant_id} 
 
 Request:
- <pre>curl "SERVER_PATH/rest/dish_menu/vote/34"</pre>
+ <pre>curl "SERVER_PATH/rest/restaurants/vote/34"</pre>
+
+Response example:
+
+true - vote has been added
+false - vote did't added, out of time or error
 
 ### 01.3. View vote history (Optional) 
 - User can view the his votes GET SERVER_PATH/rest/history/ 
@@ -82,7 +72,7 @@ Request:
 
 ## 02. Admin flow 
 
-### 02.1. Add restaurant
+### + 02.1. Add restaurant
 - Admin can add new restaurant by 
 <br/>POST SERVER_PATH/rest/restaurants/
 
@@ -93,7 +83,7 @@ curl -s -X POST -d '{"name":"New Restaurant"}'
 SERVER_PATH/rest/restaurants/`
 </pre>
 
-### 02.2. Add today menu dish for restaurant 
+### + 02.2. Add today menu dish for restaurant 
 - Admin can add new dishes by restaurant_id 
 <br/>POST SERVER_PATH/rest/restaurants/{restaurant_id}
 
@@ -102,8 +92,8 @@ SERVER_PATH/rest/restaurants/`
 - Only today  dish can be removed.
 <br/>DELETE SERVER_PATH/rest/dish/{dish_id}
 
-### 02.4. View today menu for all restourants 
-- Admin can view all today's menu
+### 02.4. View all restourants with today menu.
+- Admin can view all today's menu, empty or with dishes
 <br/>GET SERVER_PATH/rest/restaurants/
 
 ### 02.5. Remove restaurant

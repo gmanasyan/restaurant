@@ -27,7 +27,11 @@ VALUES (100005, '2019-08-16', 'Summer squash soup with creamed feta biscuits', 8
        (100005, '2019-08-16', 'Mediterranean salad with quinoa, beetroot, datterini & olives', 2250),
        (100006, '2019-08-15', 'Squash tabbouleh ', 1275),
        (100006, '2019-08-15', 'The Ivy vegetarian Shepherds Pie', 1433),
-       (100006, '2019-08-15', 'Linguine primavera ', 1600);
+       (100006, '2019-08-15', 'Linguine primavera ', 1600),
+       (100006, '2019-08-16', 'Squash tabbouleh ', 1275),
+       (100006, '2019-08-16', 'The Ivy vegetarian Shepherds Pie', 1433),
+       (100006, '2019-08-16', 'Linguine primavera ', 1600);
+
 
 
 INSERT INTO votes (user_id, restaurant_id, date)
