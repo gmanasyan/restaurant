@@ -28,6 +28,15 @@ public class DataJpaDishRepository {
         return crudDishRepository.save(dish);
     }
 
+    public Dish get(int id) {
+        return crudDishRepository.getOne(id);
+    }
+
+    @Transactional
+    public void delete(int id) {
+        crudDishRepository.delete(get(id));
+    }
+
 //    public Map<Restaurant, List<Dish>> getAllByRestaurant(LocalDate date) {
 //        List<Dish> allDishes = crudDishRepository.getAll(date);
 //        Map<Restaurant, List<Dish>> map = allDishes.stream()

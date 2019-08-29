@@ -17,7 +17,7 @@ public class DataJpaRestaurantRepository {
     @Autowired
     private CrudRestaurantRepository crudRestaurantRepository;
 
-    public List<Restaurant> getAll(LocalDate date) {
+    public List<Restaurant> getAll() {
         return crudRestaurantRepository.getAll();
     }
 
@@ -29,6 +29,11 @@ public class DataJpaRestaurantRepository {
 
     public Restaurant get(int id) {
         return crudRestaurantRepository.getOne(id);
+    }
+
+    @Transactional
+    public void delete(int id) {
+        crudRestaurantRepository.delete(get(id));
     }
 
 }

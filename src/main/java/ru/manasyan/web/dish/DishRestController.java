@@ -3,24 +3,23 @@ package ru.manasyan.web.dish;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.manasyan.model.Dish;
 import ru.manasyan.model.Restaurant;
-import ru.manasyan.model.Vote;
 import ru.manasyan.repository.DataJpaDishRepository;
 import ru.manasyan.repository.DataJpaVoteRepository;
 import ru.manasyan.to.DishTo;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static ru.manasyan.util.Util.currentDateTime;
+
 @RestController
-@RequestMapping(value = "/rest/restaurants",  produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/rest/menu",  produces = MediaType.APPLICATION_JSON_VALUE)
 public class DishRestController {
 
     @Autowired
@@ -31,7 +30,7 @@ public class DishRestController {
 
     @GetMapping
     public Map<Restaurant, List<DishTo>> getAll() {
-        return getAllByDate(LocalDate.now());
+       return getAllByDate(currentDateTime().toLocalDate());
     }
 
     @GetMapping("/{date}")
@@ -63,8 +62,5 @@ public class DishRestController {
                 ? false : true;
     }
 
-    private LocalDateTime currentDateTime() {
-        return LocalDateTime.now();
-    }
 
 }

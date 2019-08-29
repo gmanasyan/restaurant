@@ -23,10 +23,10 @@ Build a voting system for deciding where to have lunch.
 
 ### + 01.1. View lunch menu
 - User can view lunch menu from all restaurants by 
-<br/>GET SERVER_PATH/rest/restaurants/
+<br/>GET SERVER_PATH/rest/menu/
 
 Request:
- <pre>curl "SERVER_PATH/rest/restaurants/"</pre>
+ <pre>curl "SERVER_PATH/rest/menu/"</pre>
 
 Response example for 2 restaurants each have menu with 3 dishes:
  <pre> {
@@ -47,10 +47,10 @@ Response example for 2 restaurants each have menu with 3 dishes:
 
 
 ### + 01.2. Vote for restaurant 
-- User can vote for restourant by POST SERVER_PATH/rest/restaurants/vote/{restaurant_id} 
+- User can vote for restourant by POST SERVER_PATH/rest/menu/vote/{restaurant_id} 
 
 Request:
- <pre>curl "SERVER_PATH/rest/restaurants/vote/34"</pre>
+ <pre>curl "SERVER_PATH/rest/menu/vote/34"</pre>
 
 Response example:
 
@@ -87,16 +87,16 @@ SERVER_PATH/rest/restaurants/`
 - Admin can add new dishes by restaurant_id 
 <br/>POST SERVER_PATH/rest/restaurants/{restaurant_id}
 
-### 02.3. Remove today dish 
+### + 02.3. Remove today dish 
 - Admin can remove today dishes by its id
 - Only today  dish can be removed.
-<br/>DELETE SERVER_PATH/rest/dish/{dish_id}
+<br/>DELETE SERVER_PATH/rest/restaurants/dish/{dish_id}
 
-### 02.4. View all restourants with today menu.
+### + 02.4. View all restourants with today menu.
 - Admin can view all today's menu, empty or with dishes
 <br/>GET SERVER_PATH/rest/restaurants/
 
-### 02.5. Remove restaurant
+### + 02.5. Remove restaurant
 - Admin can remove restaurant by 
 <br/>DELETE SERVER_PATH/rest/restaurants/{id}
 
