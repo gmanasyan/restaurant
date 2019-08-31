@@ -23,6 +23,8 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.manasyan.TestUtil.userHttpBasic;
+import static ru.manasyan.UserTestData.*;
 
 @SpringJUnitWebConfig(locations = {
         "classpath:spring/spring-app.xml",
@@ -59,7 +61,7 @@ class DishRestControllerTest {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
                 .addFilter(CHARACTER_ENCODING_FILTER)
-                //.apply(springSecurity())
+                .apply(springSecurity())
                 .build();
     }
 
@@ -94,15 +96,12 @@ class DishRestControllerTest {
         //{"id":100002,"dateTime":"2015-05-30T10:00:00","description":"Обновленный завтрак","calories":200}
 
         mockMvc.perform(MockMvcRequestBuilders.post(REST_URL_2)
-                .param("name", "Test Restaurant"))
-                //.contentType(MediaType.APPLICATION_JSON)
-                //.content("{\"name\":\"test\"}"))
-                //.content("Test name"))
-                //.with(userHttpBasic(ADMIN)))
-                //.andExpect(status().isOk())
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("name", "Test Restaurant")
+                .with(userHttpBasic(ADMIN)))
                 .andDo(print())
-                .andExpect(status().isOk());
-                //.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
                 //.andExpect(result -> assertMatch(readFromJsonMvcResult(result, Meal.class), ADMIN_MEAL1));
     }
 
@@ -149,6 +148,12 @@ class DishRestControllerTest {
                 .andExpect(status().isNoContent());
 
         System.out.println(dishRepository.getAll(LocalDate.of(2019, 8, 16)));
+    }
+
+    @Test
+    void vitesToday() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_2 + "votes"))
+                .andDo(print());
     }
 
 

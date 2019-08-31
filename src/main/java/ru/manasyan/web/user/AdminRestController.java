@@ -4,13 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.manasyan.model.Dish;
 import ru.manasyan.model.Restaurant;
 import ru.manasyan.repository.DataJpaDishRepository;
 import ru.manasyan.repository.DataJpaRestaurantRepository;
+import ru.manasyan.repository.DataJpaVoteRepository;
 import ru.manasyan.to.DishTo;
+import ru.manasyan.to.VotesStatistics;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,6 +31,9 @@ public class AdminRestController {
 
     @Autowired
     private DataJpaDishRepository dishRepository;
+
+    @Autowired
+    private DataJpaVoteRepository voteRepository;
 
 
     @GetMapping
@@ -77,6 +83,16 @@ public class AdminRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteDish(@PathVariable("id") int id) {
         dishRepository.delete(id);
+    }
+
+    @GetMapping("/votes")
+    public Map<Restaurant, Long> todayVotes() {
+        List<VotesStatistics> votes = voteRepository.getToday(LocalDate.of(2019,8,27));
+
+        Map<Restaurant, Long> votesRestaurant = votes.stream()
+                .collect(Collectors.toMap(v -> restaurantRepository.get(v.getRestaurant()), v -> v.getVotes() ));
+
+        return votesRestaurant;
     }
 
 

@@ -100,12 +100,18 @@ SERVER_PATH/rest/restaurants/`
 - Admin can remove restaurant by 
 <br/>DELETE SERVER_PATH/rest/restaurants/{id}
 
-### 02.6. Vote History for restaurant (Optional)
-- Admin can view vote history for restaurant by 
-<br/>GET SERVER_PATH/rest/restaurants/history/{id}/
+### + 02.6. View today votes for all restaurants
+- Admin can view today votes for all restaurant by 
+<br/>GET SERVER_PATH/rest/restaurants/votes/
 - View menu for each day and votes for this day.
 
-### 02.7. Publish menu for restaurant (Optional) 
+### 02.7. Vote History for restaurant (Optional ?)
+- Admin can view vote history for restaurant by 
+<br/>GET SERVER_PATH/rest/restaurants/votes/{id}/
+- View menu for each day and votes for this day.
+
+
+### 02.8. Publish menu for restaurant (Optional) 
 - Admin can publish menu for user by restaurant
 - User start see this menu.
 - No more edits will allowed because users start vote.

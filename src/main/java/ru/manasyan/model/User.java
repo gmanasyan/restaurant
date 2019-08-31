@@ -3,6 +3,7 @@ package ru.manasyan.model;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.Set;
 
 @Entity
@@ -28,6 +29,10 @@ public class User extends AbstractBaseEntity {
     private Set<Role> roles;
 
     public User() {
+    }
+
+    public User(Integer id, String name, String email, String password, Role role, Role... roles) {
+        this(id, name, email, password, LocalDateTime.now(), EnumSet.of(role, roles));
     }
 
     public User(Integer id, String name, String email, String password, LocalDateTime registered, Set<Role> roles) {
