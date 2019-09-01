@@ -16,6 +16,7 @@ import ru.manasyan.to.DishTo;
 import ru.manasyan.to.VotesStatistics;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -61,29 +62,56 @@ public class AdminRestController {
 
     //@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping
-    public Restaurant create(@RequestParam("name") String name) {
-        return restaurantRepository.create(name);
+    public Restaurant createRestaurant(@RequestParam("name") String name) {
+        Restaurant restaurant = new Restaurant(null, name, LocalDateTime.now());
+        return restaurantRepository.save(restaurant);
     }
 
-    @PostMapping("/{id}")
-    public Dish vote(@PathVariable("id") int restaurant_id, @RequestParam("name") String name, @RequestParam("price") double price ) {
-        Dish dish = new Dish(null, name, (int)(price*100), LocalDate.now());
-        dish.setRestaurant(restaurantRepository.get(restaurant_id));
-        return dishRepository.save(dish);
+    @PutMapping("/{id}")
+    public Restaurant updateRestaurant(@PathVariable("id") int id, @RequestParam("name") String name) {
+        Restaurant restaurant = restaurantRepository.get(id);
+        restaurant.setName(name);
+        return restaurantRepository.save(restaurant);
     }
 
-    //@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteRestaurant(@PathVariable("id") int id) {
         restaurantRepository.delete(id);
     }
 
-    @DeleteMapping("dish/{id}")
+
+    // -------------- Dishes ---------------------
+
+    @PostMapping("/{id}/dishes")
+    public Dish createDish(@PathVariable("id") int restaurant_id, @RequestParam("name") String name, @RequestParam("price") double price ) {
+        Dish dish = new Dish(null, name, (int)(price*100), LocalDate.now());
+        dish.setRestaurant(restaurantRepository.get(restaurant_id));
+        Dish savedDish = dishRepository.save(dish);
+        return savedDish;
+    }
+
+    @PutMapping("dishes/{id}")
+    public Dish updateDish(@PathVariable("id") int id, @RequestParam("name") String name, @RequestParam("price") double price) throws Exception {
+        Dish dish = dishRepository.get(id);
+
+        // Update only today dishes
+        if (dish.getDateTime().equals(LocalDate.now())) {
+            dish.setName(name);
+            dish.setPrice((int) (price * 100));
+            Dish savedDish = dishRepository.save(dish);
+            return savedDish;
+        } else throw new Exception("Only today dishes can be updated");
+    }
+
+    @DeleteMapping("dishes/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteDish(@PathVariable("id") int id) {
         dishRepository.delete(id);
     }
+
+
+    // ------------------ Votes ------------------
 
     @GetMapping("/votes")
     public Map<Restaurant, Long> todayVotes() {

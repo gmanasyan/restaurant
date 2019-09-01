@@ -13,6 +13,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import ru.manasyan.model.Restaurant;
 import ru.manasyan.repository.DataJpaDishRepository;
 import ru.manasyan.repository.DataJpaRestaurantRepository;
+import ru.manasyan.repository.DataJpaVoteRepository;
 
 import javax.annotation.PostConstruct;
 
@@ -56,6 +57,9 @@ class DishRestControllerTest {
     @Autowired
     private DataJpaDishRepository dishRepository;
 
+    @Autowired
+    private DataJpaVoteRepository voteRepository;
+
     @PostConstruct
     private void postConstruct() {
         mockMvc = MockMvcBuilders
@@ -67,9 +71,9 @@ class DishRestControllerTest {
 
     @Test
     void get() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + "2019-08-16"))
-                //.with(userHttpBasic(ADMIN)))
-                //.andExpect(status().isOk())
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL + "2019-08-16")
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
                 //.andExpect(result -> assertMatch(readFromJsonMvcResult(result, Meal.class), ADMIN_MEAL1));
@@ -77,15 +81,15 @@ class DishRestControllerTest {
 
     @Test
     void vote() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL + "/vote/100006"))
-                //.with(userHttpBasic(ADMIN)))
-                //.andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-        //.andExpect(result -> assertMatch(readFromJsonMvcResult(result, Meal.class), ADMIN_MEAL1));
+        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL + "/vote/100006")
+                .with(userHttpBasic(USER1)))
+                .andExpect(status().isOk())
+                .andDo(print());
+                //.andExpect(result -> result.getResponse().getContentAsString().equals("true"));
+
+        System.out.println(voteRepository.get(USER1.getId(), LocalDate.now()));
+
     }
-
-
 
 // ------------------------- Restaurants Test ---------------------------------------
 
@@ -107,10 +111,10 @@ class DishRestControllerTest {
 
     @Test
     void newDish() throws Exception {
-
-        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL_2 + "100006")
+        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL_2 + "100006/dishes")
                 .param("name", "New dish")
-                .param("price", "20.10"))
+                .param("price", "20.10")
+                .with(userHttpBasic(ADMIN)))
                 //.contentType(MediaType.APPLICATION_JSON)
                 //.content("{\"name\":\"test\"}"))
                 //.content("Test name"))
@@ -123,10 +127,35 @@ class DishRestControllerTest {
     }
 
     @Test
+    void updateDish() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL_2 + "dishes/100007")
+                .param("name", "Updated dish")
+                .param("price", "22.10")
+                .with(userHttpBasic(ADMIN)))
+                .andDo(print())
+                .andExpect(status().isOk());
+        //.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+        //.andExpect(result -> assertMatch(readFromJsonMvcResult(result, Meal.class), ADMIN_MEAL1));
+
+        System.out.println(dishRepository.get(100007));
+    }
+
+    @Test
+    void deleteDish() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete(REST_URL_2 + "dishes/100007")
+                .with(userHttpBasic(ADMIN)))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+
+        System.out.println(dishRepository.getAll(LocalDate.of(2019, 8, 16)));
+    }
+
+
+    @Test
     void allRestaurants() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_2))
-                //.with(userHttpBasic(ADMIN)))
-                //.andExpect(status().isOk())
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_2)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
         //.andExpect(result -> assertMatch(readFromJsonMvcResult(result, Meal.class), ADMIN_MEAL1));
@@ -134,21 +163,14 @@ class DishRestControllerTest {
 
     @Test
     void deleteRestaurant() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete(REST_URL_2 + "100006"))
+        mockMvc.perform(MockMvcRequestBuilders.delete(REST_URL_2 + "100006")
+                .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
         System.out.println(restaurantRepository.getAll());
     }
 
-    @Test
-    void deleteDish() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete(REST_URL_2 + "dish/100007"))
-                .andDo(print())
-                .andExpect(status().isNoContent());
-
-        System.out.println(dishRepository.getAll(LocalDate.of(2019, 8, 16)));
-    }
 
     @Test
     void vitesToday() throws Exception {

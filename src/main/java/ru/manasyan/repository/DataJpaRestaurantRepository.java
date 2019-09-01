@@ -22,8 +22,7 @@ public class DataJpaRestaurantRepository {
     }
 
     @Transactional
-    public Restaurant create(String name) {
-        Restaurant restaurant = new Restaurant(null, name, LocalDateTime.now());
+    public Restaurant save(Restaurant restaurant) {
         return crudRestaurantRepository.save(restaurant);
     }
 

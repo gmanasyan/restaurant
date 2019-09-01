@@ -16,7 +16,8 @@ CREATE TABLE users
     password   VARCHAR                           NOT NULL,
     registered TIMESTAMP           DEFAULT now() NOT NULL
 );
-CREATE UNIQUE INDEX users_unique_email_idx ON users (email);
+CREATE UNIQUE INDEX users_unique_email_idx
+    ON users (email);
 
 CREATE TABLE user_roles
 (
@@ -32,6 +33,9 @@ CREATE TABLE restaurants
     name        TEXT      NOT NULL,
     date_time   TIMESTAMP NOT NULL
 );
+
+CREATE UNIQUE INDEX restaurants_unique_name_idx
+    ON restaurants (name);
 
 CREATE TABLE dishes
 (

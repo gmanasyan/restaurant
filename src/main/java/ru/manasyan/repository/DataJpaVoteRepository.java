@@ -18,7 +18,8 @@ public class DataJpaVoteRepository {
         Vote vote = get(user_id, date);
         if (vote != null) { vote.setRestaurant_id(restaurant_id);}
         else { vote = new Vote(null, user_id, restaurant_id, date); }
-        return (crudVoteRepository.save(vote) != null) ? true : false;
+        Vote savedVote = crudVoteRepository.save(vote);
+        return (savedVote != null) ? true : false;
     }
 
     public Vote get(int user_id, LocalDate date) {

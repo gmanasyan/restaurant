@@ -63,16 +63,18 @@ false - vote did't added, out of time or error
 Request:
  <pre>curl "SERVER_PATH/rest/history"</pre>
 
-### 01.4. User can register (Optional) 
-- User can register 
 
- 
+
  
 <br/><br/><br/>
 
 ## 02. Admin flow 
 
-### + 02.1. Add restaurant
+### + 02.1. View all restourants with today menu.
+- Admin can view all today's menu, empty or with dishes
+<br/>GET SERVER_PATH/rest/restaurants/
+
+### + 02.2. Add restaurant
 - Admin can add new restaurant by 
 <br/>POST SERVER_PATH/rest/restaurants/
 
@@ -83,35 +85,45 @@ curl -s -X POST -d '{"name":"New Restaurant"}'
 SERVER_PATH/rest/restaurants/`
 </pre>
 
-### + 02.2. Add today menu dish for restaurant 
-- Admin can add new dishes by restaurant_id 
-<br/>POST SERVER_PATH/rest/restaurants/{restaurant_id}
+### + 02.3. Edit restaurant
+- Admin can update restaurant by by it's id
+<br/>PUT SERVER_PATH/rest/restaurants/{id}
 
-### + 02.3. Remove today dish 
-- Admin can remove today dishes by its id
-- Only today  dish can be removed.
-<br/>DELETE SERVER_PATH/rest/restaurants/dish/{dish_id}
-
-### + 02.4. View all restourants with today menu.
-- Admin can view all today's menu, empty or with dishes
-<br/>GET SERVER_PATH/rest/restaurants/
-
-### + 02.5. Remove restaurant
-- Admin can remove restaurant by 
+### + 02.4. Remove restaurant
+- Admin can remove restaurant by it's id 
 <br/>DELETE SERVER_PATH/rest/restaurants/{id}
 
-### + 02.6. View today votes for all restaurants
+### + 02.5. Add today menu dish for restaurant 
+- Admin can add new dishes by restaurant_id 
+<br/>POST SERVER_PATH/rest/restaurants/{restaurant_id}/dishes
+
+### + 02.6. Edit today menu dish for restaurant 
+- Admin can edit dishe by dish_id 
+<br/>POST SERVER_PATH/rest/restaurants/dishes/{dish_id}
+
+### + 02.7. Remove today dish 
+- Admin can remove today dishes by its id
+- Only today  dish can be removed.
+<br/>DELETE SERVER_PATH/rest/restaurants/dishes/{dish_id}
+
+### + 02.8. View today votes for all restaurants
 - Admin can view today votes for all restaurant by 
 <br/>GET SERVER_PATH/rest/restaurants/votes/
-- View menu for each day and votes for this day.
+- View today votes for all restaurants.
 
-### 02.7. Vote History for restaurant (Optional ?)
+### 02.9. View votes by date (Optional)
+- Admin can view votes history for restaurants by date 
+<br/>GET SERVER_PATH/rest/restaurants/votes/{date}/
+- View votes for particular day for all restaurants.
+
+### 02.10. Vote History for restaurant (Optional)
 - Admin can view vote history for restaurant by 
-<br/>GET SERVER_PATH/rest/restaurants/votes/{id}/
-- View menu for each day and votes for this day.
+<br/>GET SERVER_PATH/rest/restaurants/{id}/votes/
+- View votes for one restaurant by each day.
 
 
-### 02.8. Publish menu for restaurant (Optional) 
+### 02.11. Publish menu for restaurant, or last time for edit.  (Optional)
+- Set publish time for restaurantss menu. All menu will be visible at 8:00 o'clock.
 - Admin can publish menu for user by restaurant
 - User start see this menu.
 - No more edits will allowed because users start vote.

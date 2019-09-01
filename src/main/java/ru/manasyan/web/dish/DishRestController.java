@@ -9,6 +9,7 @@ import ru.manasyan.model.Restaurant;
 import ru.manasyan.repository.DataJpaDishRepository;
 import ru.manasyan.repository.DataJpaVoteRepository;
 import ru.manasyan.to.DishTo;
+import ru.manasyan.web.SecurityUtil;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -51,10 +52,9 @@ public class DishRestController {
     }
 
     @PostMapping("/vote/{id}")
-    public boolean vote(@PathVariable("id") int restaurant_id) {
-        //int userId = SecurityUtil.authUserId();
-        int user_id = 100000;
-        return canVote() ? voteRepository.update(user_id, restaurant_id, currentDateTime().toLocalDate()) : false;
+    public boolean vote(@PathVariable("id") int restaurant_id) throws Exception {
+        int userId = SecurityUtil.authUserId();
+        return canVote() ? voteRepository.update(userId, restaurant_id, LocalDate.now()) : false;
     }
 
     public boolean canVote() {
