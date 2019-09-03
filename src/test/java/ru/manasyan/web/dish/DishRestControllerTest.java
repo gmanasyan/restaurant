@@ -10,10 +10,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import ru.manasyan.model.Dish;
 import ru.manasyan.model.Restaurant;
 import ru.manasyan.repository.DataJpaDishRepository;
 import ru.manasyan.repository.DataJpaRestaurantRepository;
 import ru.manasyan.repository.DataJpaVoteRepository;
+import ru.manasyan.to.DishTo;
+import ru.manasyan.web.json.JsonUtil;
 
 import javax.annotation.PostConstruct;
 
@@ -94,6 +97,16 @@ class DishRestControllerTest {
 // ------------------------- Restaurants Test ---------------------------------------
 
     @Test
+    void allRestaurants() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_2)
+                .with(userHttpBasic(ADMIN)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+        //.andExpect(result -> assertMatch(readFromJsonMvcResult(result, Meal.class), ADMIN_MEAL1));
+    }
+
+    @Test
     void newRestaurant() throws Exception {
 
         //Restaurant restaurant = new Restaurant(null, );
@@ -110,53 +123,13 @@ class DishRestControllerTest {
     }
 
     @Test
-    void newDish() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL_2 + "100006/dishes")
-                .param("name", "New dish")
-                .param("price", "20.10")
-                .with(userHttpBasic(ADMIN)))
-                //.contentType(MediaType.APPLICATION_JSON)
-                //.content("{\"name\":\"test\"}"))
-                //.content("Test name"))
-                //.with(userHttpBasic(ADMIN)))
-                //.andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(status().isOk());
-        //.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-        //.andExpect(result -> assertMatch(readFromJsonMvcResult(result, Meal.class), ADMIN_MEAL1));
-    }
-
-    @Test
-    void updateDish() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL_2 + "dishes/100007")
-                .param("name", "Updated dish")
-                .param("price", "22.10")
+    void updateRestaurant() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL_2+ "/100006")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("name", "Test Restaurant")
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print())
-                .andExpect(status().isOk());
-        //.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-        //.andExpect(result -> assertMatch(readFromJsonMvcResult(result, Meal.class), ADMIN_MEAL1));
-
-        System.out.println(dishRepository.get(100007));
-    }
-
-    @Test
-    void deleteDish() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete(REST_URL_2 + "dishes/100007")
-                .with(userHttpBasic(ADMIN)))
-                .andDo(print())
-                .andExpect(status().isNoContent());
-
-        System.out.println(dishRepository.getAll(LocalDate.of(2019, 8, 16)));
-    }
-
-
-    @Test
-    void allRestaurants() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_2)
-                .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
-                .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
         //.andExpect(result -> assertMatch(readFromJsonMvcResult(result, Meal.class), ADMIN_MEAL1));
     }
@@ -169,6 +142,64 @@ class DishRestControllerTest {
                 .andExpect(status().isNoContent());
 
         System.out.println(restaurantRepository.getAll());
+    }
+
+    @Test
+    void newDish() throws Exception {
+        Dish dish = new Dish(null, "New Dish", 2050, null, null);
+        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL_2 + "100006/dishes")
+                .contentType(MediaType.APPLICATION_JSON)
+//                .param("name", "New dish")
+//                .param("price", "20.10")
+                .content(JsonUtil.writeValue(dish))
+                .with(userHttpBasic(ADMIN)))
+                .andDo(print())
+                .andExpect(status().isOk());
+        //.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+        //.andExpect(result -> assertMatch(readFromJsonMvcResult(result, Meal.class), ADMIN_MEAL1));
+    }
+
+    @Test
+    void updateDish() throws Exception {
+
+        Dish dish = new Dish(null, "New Dish", 2050, null, null);
+        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL_2 + "100006/dishes")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(dish))
+                .with(userHttpBasic(ADMIN)))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        Dish dishUpdate = new Dish(null, "Updated dish", 3510, null, null);
+        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL_2 + "dishes/100020")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(dishUpdate))
+                .with(userHttpBasic(ADMIN)))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        System.out.println(dishRepository.get(100020));
+    }
+
+    @Test
+    void deleteDish() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.delete(REST_URL_2 + "dishes/100007")
+                .with(userHttpBasic(ADMIN)))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+
+        System.out.println(dishRepository.getAll(LocalDate.of(2019, 8, 16)));
+    }
+
+    @Test
+    void newDishNotValid() throws Exception {
+        Dish dish = new Dish(null, "New Dish", 5, null, null);
+        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL_2 + "100006/dishes")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(dish))
+                .with(userHttpBasic(ADMIN)))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
     }
 
 

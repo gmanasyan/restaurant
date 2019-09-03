@@ -1,5 +1,7 @@
 package ru.manasyan.model;
 
+import org.hibernate.validator.constraints.UniqueElements;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -11,6 +13,7 @@ import java.util.List;
 @Table(name = "restaurants")
 public class Restaurant extends AbstractBaseEntity {
 
+    @UniqueElements
     @Column(name = "name", nullable = false)
     private String name;
 

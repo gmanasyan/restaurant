@@ -6,7 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.manasyan.View;
 import ru.manasyan.model.Dish;
 import ru.manasyan.model.Restaurant;
 import ru.manasyan.repository.DataJpaDishRepository;
@@ -15,6 +18,7 @@ import ru.manasyan.repository.DataJpaVoteRepository;
 import ru.manasyan.to.DishTo;
 import ru.manasyan.to.VotesStatistics;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -83,24 +87,30 @@ public class AdminRestController {
 
     // -------------- Dishes ---------------------
 
-    @PostMapping("/{id}/dishes")
-    public Dish createDish(@PathVariable("id") int restaurant_id, @RequestParam("name") String name, @RequestParam("price") double price ) {
-        Dish dish = new Dish(null, name, (int)(price*100), LocalDate.now());
+//    @PostMapping("/{id}/dishes")
+//    public Dish createDish(@PathVariable("id") int restaurant_id, @RequestParam("name") String name, @RequestParam("price") double price ) {
+//        Dish dish = new Dish(null, name, (int)(price*100), LocalDate.now());
+//        dish.setRestaurant(restaurantRepository.get(restaurant_id));
+//        Dish savedDish = dishRepository.save(dish);
+//        return savedDish;
+//    }
+
+    @PostMapping(value ="/{id}/dishes")
+    public Dish createDish(@Valid @RequestBody Dish dish, @PathVariable("id") int restaurant_id) {
+        dish.setDate(LocalDate.now());
         dish.setRestaurant(restaurantRepository.get(restaurant_id));
         Dish savedDish = dishRepository.save(dish);
         return savedDish;
     }
 
     @PutMapping("dishes/{id}")
-    public Dish updateDish(@PathVariable("id") int id, @RequestParam("name") String name, @RequestParam("price") double price) throws Exception {
+    public Dish updateDish(@Valid @RequestBody Dish dishUpdate, @PathVariable("id") int id) throws Exception {
         Dish dish = dishRepository.get(id);
-
         // Update only today dishes
-        if (dish.getDateTime().equals(LocalDate.now())) {
-            dish.setName(name);
-            dish.setPrice((int) (price * 100));
-            Dish savedDish = dishRepository.save(dish);
-            return savedDish;
+        if (dish.getDate().equals(LocalDate.now())) {
+            dishUpdate.setId(id);
+            dishUpdate.setRestaurant(dish.getRestaurant());
+            return dishRepository.save(dishUpdate);
         } else throw new Exception("Only today dishes can be updated");
     }
 

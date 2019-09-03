@@ -11,8 +11,13 @@
 
     <bean class="ru.manasyan.web.json.JacksonObjectMapper" id="objectMapper" factory-method="getMapper"/>
 
+<!--    <bean id="validator"-->
+<!--          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>-->
+
     <!--Security-->
     <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
+
+    <mvc:annotation-driven />
 
     <mvc:annotation-driven conversion-service="conversionService">
         <mvc:message-converters>
