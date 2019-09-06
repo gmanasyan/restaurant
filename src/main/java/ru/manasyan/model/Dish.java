@@ -92,7 +92,7 @@ public class Dish extends AbstractBaseEntity {
                 ", dateTime=" + date +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", restaurant id=" + restaurant.id +
+                ", restaurant=" + restaurant +
                 '}';
     }
 

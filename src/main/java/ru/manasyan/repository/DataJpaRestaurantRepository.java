@@ -27,7 +27,7 @@ public class DataJpaRestaurantRepository {
     }
 
     public Restaurant get(int id) {
-        return crudRestaurantRepository.getOne(id);
+        return crudRestaurantRepository.findById(id).orElse(null);
     }
 
     @Transactional

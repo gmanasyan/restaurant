@@ -1,6 +1,7 @@
 package ru.manasyan.web.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,6 +27,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static ru.manasyan.util.Util.currentDateTime;
+import static ru.manasyan.util.ValidationUtil.assureIdConsistent;
+import static ru.manasyan.util.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = "/rest/restaurants",  produces = MediaType.APPLICATION_JSON_VALUE)
@@ -64,17 +67,17 @@ public class AdminRestController {
                 .collect(Collectors.toList());
     }
 
-    //@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping
-    public Restaurant createRestaurant(@RequestParam("name") String name) {
-        Restaurant restaurant = new Restaurant(null, name, LocalDateTime.now());
+    public Restaurant createRestaurant(@Valid @RequestBody Restaurant restaurant) {
+        checkNew(restaurant);
+        restaurant.setDateTime(LocalDateTime.now());
         return restaurantRepository.save(restaurant);
     }
 
     @PutMapping("/{id}")
-    public Restaurant updateRestaurant(@PathVariable("id") int id, @RequestParam("name") String name) {
-        Restaurant restaurant = restaurantRepository.get(id);
-        restaurant.setName(name);
+    public Restaurant updateRestaurant(@Valid @RequestBody Restaurant restaurant, @PathVariable("id") int id) {
+        assureIdConsistent(restaurant, id);
+        restaurant.setDateTime(restaurantRepository.get(id).getDateTime());
         return restaurantRepository.save(restaurant);
     }
 
@@ -87,16 +90,9 @@ public class AdminRestController {
 
     // -------------- Dishes ---------------------
 
-//    @PostMapping("/{id}/dishes")
-//    public Dish createDish(@PathVariable("id") int restaurant_id, @RequestParam("name") String name, @RequestParam("price") double price ) {
-//        Dish dish = new Dish(null, name, (int)(price*100), LocalDate.now());
-//        dish.setRestaurant(restaurantRepository.get(restaurant_id));
-//        Dish savedDish = dishRepository.save(dish);
-//        return savedDish;
-//    }
-
     @PostMapping(value ="/{id}/dishes")
     public Dish createDish(@Valid @RequestBody Dish dish, @PathVariable("id") int restaurant_id) {
+        checkNew(dish);
         dish.setDate(LocalDate.now());
         dish.setRestaurant(restaurantRepository.get(restaurant_id));
         Dish savedDish = dishRepository.save(dish);
@@ -105,13 +101,14 @@ public class AdminRestController {
 
     @PutMapping("dishes/{id}")
     public Dish updateDish(@Valid @RequestBody Dish dishUpdate, @PathVariable("id") int id) throws Exception {
-        Dish dish = dishRepository.get(id);
+        assureIdConsistent(dishUpdate, id);
+
         // Update only today dishes
+        Dish dish = dishRepository.get(id);
         if (dish.getDate().equals(LocalDate.now())) {
-            dishUpdate.setId(id);
             dishUpdate.setRestaurant(dish.getRestaurant());
             return dishRepository.save(dishUpdate);
-        } else throw new Exception("Only today dishes can be updated");
+        } else throw new DataIntegrityViolationException("Only today dishes can be updated: " + dishUpdate);
     }
 
     @DeleteMapping("dishes/{id}")
