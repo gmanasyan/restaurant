@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS history;
 DROP TABLE IF EXISTS votes;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS dishes;
@@ -64,3 +65,17 @@ CREATE TABLE votes
 
 CREATE UNIQUE INDEX votes_unique_date_user_idx
     ON votes (date, user_id);
+
+CREATE TABLE history
+(
+    id            INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+    restaurant_id INTEGER   NOT NULL,
+    date          DATE      NOT NULL,
+    votes         INTEGER   NOT NULL,
+
+    FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE
+);
+
+CREATE UNIQUE INDEX history_unique_date_restaurant_idx
+    ON history (date, restaurant_id);
+

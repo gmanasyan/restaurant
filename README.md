@@ -57,11 +57,17 @@ Response example:
 true - vote has been added
 false - vote did't added, out of time or error
 
-### 01.3. View vote history (Optional) 
-- User can view the his votes GET SERVER_PATH/rest/history/ 
+### + 01.3. View vote history 
+- User can view his votes from all days by GET SERVER_PATH/rest/menu/vote/history/ 
 
 Request:
- <pre>curl "SERVER_PATH/rest/history"</pre>
+ <pre>curl "SERVER_PATH/rest/menu/vote/history"</pre>
+
+### + 01.4. View restaurant menu by date 
+- User can view restaurant menu by date GET SERVER_PATH/rest/menu/restaurant/{restaurant_id}/{date} 
+
+Request:
+ <pre>curl "SERVER_PATH/rest/menu/restaurant/{restaurant_id}/{date}"</pre>
 
 
 
@@ -111,7 +117,7 @@ SERVER_PATH/rest/restaurants/`
 <br/>GET SERVER_PATH/rest/restaurants/votes/
 - View today votes for all restaurants.
 
-### 02.9. View votes by date (Optional)
+### + 02.9. View votes by date 
 - Admin can view votes history for restaurants by date 
 <br/>GET SERVER_PATH/rest/restaurants/votes/{date}/
 - View votes for particular day for all restaurants.
@@ -120,7 +126,6 @@ SERVER_PATH/rest/restaurants/`
 - Admin can view vote history for restaurant by 
 <br/>GET SERVER_PATH/rest/restaurants/{id}/votes/
 - View votes for one restaurant by each day.
-
 
 ### 02.11. Publish menu for restaurant, or last time for edit.  (Optional)
 - Set publish time for restaurantss menu. All menu will be visible at 8:00 o'clock.

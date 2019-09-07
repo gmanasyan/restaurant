@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.manasyan.model.Dish;
 import ru.manasyan.model.Restaurant;
+import ru.manasyan.model.Vote;
 import ru.manasyan.repository.DataJpaDishRepository;
 import ru.manasyan.repository.DataJpaVoteRepository;
 import ru.manasyan.to.DishTo;
@@ -60,6 +61,21 @@ public class DishRestController {
     public boolean canVote() {
         return (currentDateTime().toLocalTime().isAfter(LocalTime.of(11,00)))
                 ? false : true;
+    }
+
+    @PostMapping("/vote/history")
+    public List<Vote> history() throws Exception {
+        int userId = SecurityUtil.authUserId();
+        List<Vote> votes = voteRepository.history(userId);
+        return votes;
+    }
+
+    @PostMapping("/restaurants/{id}/{date}")
+    public List<Dish> restaurantMenu(@PathVariable("id") int restaurant_id, @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("date") LocalDate date) throws Exception {
+        List<Dish> dishes = dishRepository.getHistory(restaurant_id, date);
+        // No need restaurant info in every dish.
+        dishes.forEach(d -> d.setRestaurant(null));
+        return dishes;
     }
 
 

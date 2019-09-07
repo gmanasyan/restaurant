@@ -21,6 +21,9 @@ INSERT INTO dishes (restaurant_id, date, name, price)
 VALUES (100005, '2019-08-16', 'Summer squash soup with creamed feta biscuits', 875),
        (100005, '2019-08-16', 'Girolle, lemon & parsley risotto', 1500),
        (100005, '2019-08-16', 'Mediterranean salad with quinoa, beetroot, datterini & olives', 2250),
+       (100005, '2019-08-26', 'Summer squash soup with creamed feta biscuits', 875),
+       (100005, '2019-08-26', 'Girolle, lemon & parsley risotto', 1500),
+       (100005, '2019-08-26', 'Mediterranean salad with quinoa, beetroot, datterini & olives', 2250),
        (100006, '2019-08-15', 'Squash tabbouleh ', 1275),
        (100006, '2019-08-15', 'The Ivy vegetarian Shepherds Pie', 1433),
        (100006, '2019-08-15', 'Linguine primavera ', 1600),
@@ -35,8 +38,15 @@ INSERT INTO user_roles (role, user_id) VALUES
 ('ROLE_USER', 100003);
 
 INSERT INTO votes (user_id, restaurant_id, date)
-VALUES (100000, 100005, '2019-08-26 10:09:00'),
-       (100000, 100005, '2019-08-27 10:09:00'),
-       (100002, 100005, '2019-08-27 10:09:00'),
-       (100001, 100006, '2019-08-27 10:09:00');
+VALUES (100003, 100005, '2019-08-26'),
+       (100003, 100005, '2019-08-27'),
+       (100002, 100005, '2019-08-27'),
+       (100001, 100006, '2019-08-27');
+
+INSERT INTO history (restaurant_id, date, votes)
+VALUES (100005, '2019-08-26', 1),
+       (100005, '2019-08-27', 2),
+       (100006, '2019-08-27', 1);
+
+
 

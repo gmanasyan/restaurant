@@ -32,6 +32,10 @@ public class DataJpaDishRepository {
         return crudDishRepository.getOne(id);
     }
 
+    public List<Dish> getHistory(int restaurant_id, LocalDate date) {
+        return crudDishRepository.getHistory(restaurant_id, date);
+    }
+
     @Transactional
     public void delete(int id) {
         crudDishRepository.delete(get(id));

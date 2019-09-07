@@ -15,6 +15,7 @@ import ru.manasyan.model.Dish;
 import ru.manasyan.model.Restaurant;
 import ru.manasyan.repository.DataJpaDishRepository;
 import ru.manasyan.repository.DataJpaRestaurantRepository;
+import ru.manasyan.repository.DataJpaVoteHistoryRepository;
 import ru.manasyan.repository.DataJpaVoteRepository;
 import ru.manasyan.to.DishTo;
 import ru.manasyan.web.json.JsonUtil;
@@ -63,6 +64,9 @@ class DishRestControllerTest {
     @Autowired
     private DataJpaVoteRepository voteRepository;
 
+    @Autowired
+    private DataJpaVoteHistoryRepository historyRepository;
+
     @PostConstruct
     private void postConstruct() {
         mockMvc = MockMvcBuilders
@@ -91,6 +95,27 @@ class DishRestControllerTest {
                 //.andExpect(result -> result.getResponse().getContentAsString().equals("true"));
 
         System.out.println(voteRepository.get(USER1.getId(), LocalDate.now()));
+        System.out.println(historyRepository.get(LocalDate.now()));
+
+    }
+
+    @Test
+    void history() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL + "/vote/history")
+                .with(userHttpBasic(USER3)))
+                .andExpect(status().isOk())
+                .andDo(print());
+        //.andExpect(result -> result.getResponse().getContentAsString().equals("true"));
+
+    }
+
+    @Test
+    void historyMenu() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL + "/restaurants/100005/2019-08-26")
+                .with(userHttpBasic(USER3)))
+                .andExpect(status().isOk())
+                .andDo(print());
+        //.andExpect(result -> result.getResponse().getContentAsString().equals("true"));
 
     }
 
@@ -246,8 +271,16 @@ class DishRestControllerTest {
 
 
     @Test
-    void vitesToday() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_2 + "votes"))
+    void votesToday() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_2 + "votes")
+                .with(userHttpBasic(ADMIN)))
+                .andDo(print());
+    }
+
+    @Test
+    void votesHistory() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_2 + "votes/2019-08-27")
+                .with(userHttpBasic(ADMIN)))
                 .andDo(print());
     }
 
