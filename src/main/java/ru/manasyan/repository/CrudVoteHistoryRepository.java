@@ -18,4 +18,8 @@ public interface CrudVoteHistoryRepository extends JpaRepository<History, Intege
     @Query("SELECT h FROM History h WHERE h.date=:date AND h.restaurant_id = :restaurant_id")
     History get(@Param("date") LocalDate date, @Param("restaurant_id") Integer restaurant_id);
 
+    @Query("SELECT h FROM History h WHERE h.restaurant_id=:restaurant_id")
+    List<History> get(@Param("restaurant_id") Integer id);
+
+
 }

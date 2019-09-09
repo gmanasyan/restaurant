@@ -1,4 +1,4 @@
-package ru.manasyan.web.user;
+package ru.manasyan.web.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -138,9 +138,15 @@ public class AdminRestController {
     // Ver 2| Search by history database for speed.
     @GetMapping("/votes/{date}")
     public List<History> votesByDate(@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("date") LocalDate date) {
-
         List<History> history = historyRepository.get(date);
+        // no need history id
+        history.forEach(h -> h.setId(null));
+        return history;
+    }
 
+    @GetMapping("{id}/votes")
+    public List<History> votesByRestaurant(@PathVariable("id") int id) {
+        List<History> history = historyRepository.get(id);
         // no need history id
         history.forEach(h -> h.setId(null));
         return history;

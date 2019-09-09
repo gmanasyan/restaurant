@@ -2,8 +2,8 @@ package ru.manasyan;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.manasyan.web.dish.DishRestController;
-import ru.manasyan.web.user.AdminRestController;
+import ru.manasyan.web.user.DishRestController;
+import ru.manasyan.web.admin.AdminRestController;
 
 
 import java.time.LocalDate;

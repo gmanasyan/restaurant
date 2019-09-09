@@ -122,7 +122,7 @@ SERVER_PATH/rest/restaurants/`
 <br/>GET SERVER_PATH/rest/restaurants/votes/{date}/
 - View votes for particular day for all restaurants.
 
-### 02.10. Vote History for restaurant (Optional)
+### + 02.10. Vote History for restaurant
 - Admin can view vote history for restaurant by 
 <br/>GET SERVER_PATH/rest/restaurants/{id}/votes/
 - View votes for one restaurant by each day.
@@ -136,4 +136,28 @@ SERVER_PATH/rest/restaurants/`
 <br/>POST SERVER_PATH/rest/restaurants/publish
 
 <br/><br/><br/>
+
+<br/><br/><br/>
+
+## 03. Registration
+
+User can register, view and update his profile.
+
+Assume that admins for restaurant updates will be added by 
+Super Admin directly into database.    
+
+### + 03.1. Regular user can register.
+- User can register
+<br/>POST SERVER_PATH/rest/profile/register
+
+### + 03.2. User can view his profile 
+- User has access only to his profile
+<br/>GET SERVER_PATH/rest/profile
+
+### + 03.3. User can update his profile 
+- User has access to update only to his profile
+<br/>PUT SERVER_PATH/rest/profile
+
+
+
 

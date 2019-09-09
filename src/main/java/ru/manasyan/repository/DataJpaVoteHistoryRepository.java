@@ -19,6 +19,11 @@ public class DataJpaVoteHistoryRepository {
         return histories;
     }
 
+    public List<History> get(int restaurantId) {
+        List<History> histories = crudVoteHistoryRepository.get(restaurantId);
+        return histories;
+    }
+
     public void add(Integer restaurant_id, LocalDate date) {
         History history = crudVoteHistoryRepository.get(date, restaurant_id);
 

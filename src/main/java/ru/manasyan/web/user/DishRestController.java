@@ -1,4 +1,4 @@
-package ru.manasyan.web.dish;
+package ru.manasyan.web.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,8 +21,9 @@ import java.util.stream.Collectors;
 import static ru.manasyan.util.Util.currentDateTime;
 
 @RestController
-@RequestMapping(value = "/rest/menu",  produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = DishRestController.REST_URL,  produces = MediaType.APPLICATION_JSON_VALUE)
 public class DishRestController {
+static final String REST_URL = "/rest/menu";
 
     @Autowired
     private DataJpaDishRepository dishRepository;
