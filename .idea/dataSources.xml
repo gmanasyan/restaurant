@@ -7,5 +7,11 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/restaurant</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="restaurant" uuid="f5d6d2e2-f586-4076-b322-eb2179454d68">
+      <driver-ref>hsqldb.local</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.hsqldb.jdbc.JDBCDriver</jdbc-driver>
+      <jdbc-url>jdbc:hsqldb:mem:restaurant</jdbc-url>
+    </data-source>
   </component>
 </project>

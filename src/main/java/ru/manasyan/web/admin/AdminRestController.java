@@ -1,5 +1,7 @@
 package ru.manasyan.web.admin;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,6 +22,7 @@ import ru.manasyan.repository.DataJpaVoteHistoryRepository;
 import ru.manasyan.repository.DataJpaVoteRepository;
 import ru.manasyan.to.DishTo;
 import ru.manasyan.to.VotesStatistics;
+import ru.manasyan.web.ExceptionInfoHandler;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -35,6 +38,8 @@ import static ru.manasyan.util.ValidationUtil.checkNew;
 @RestController
 @RequestMapping(value = "/rest/restaurants",  produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminRestController {
+
+    private static Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
 
     @Autowired
     private DataJpaRestaurantRepository restaurantRepository;
@@ -105,8 +110,8 @@ public class AdminRestController {
 
     @PutMapping("dishes/{id}")
     public Dish updateDish(@Valid @RequestBody Dish dishUpdate, @PathVariable("id") int id) throws Exception {
+        log.info("Update dish " + dishUpdate);
         assureIdConsistent(dishUpdate, id);
-
         // Update only today dishes
         Dish dish = dishRepository.get(id);
         if (dish.getDate().equals(LocalDate.now())) {

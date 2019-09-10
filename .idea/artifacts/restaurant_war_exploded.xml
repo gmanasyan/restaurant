@@ -14,6 +14,9 @@
           <element id="module-output" name="restaurant" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.25" />
+          <element id="library" level="project" name="Maven: ch.qos.logback:logback-classic:1.2.3" />
+          <element id="library" level="project" name="Maven: ch.qos.logback:logback-core:1.2.3" />
           <element id="library" level="project" name="Maven: org.springframework:spring-context:5.1.7.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-aop:5.1.7.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-beans:5.1.7.RELEASE" />
@@ -26,7 +29,6 @@
           <element id="library" level="project" name="Maven: org.springframework.data:spring-data-jpa:2.1.9.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework.data:spring-data-commons:2.1.9.RELEASE" />
           <element id="library" level="project" name="Maven: org.aspectj:aspectjrt:1.9.3" />
-          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.26" />
           <element id="library" level="project" name="Maven: org.postgresql:postgresql:42.2.6" />
           <element id="library" level="project" name="Maven: org.hsqldb:hsqldb:2.3.4" />
           <element id="library" level="project" name="Maven: org.hibernate:hibernate-core:5.4.3.Final" />

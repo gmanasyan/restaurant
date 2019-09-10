@@ -61,6 +61,7 @@ public class ExceptionInfoHandler {
    @ResponseStatus(value = HttpStatus.CONFLICT)  // 409
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ErrorInfo conflict(HttpServletRequest req, DataIntegrityViolationException e) {
+        log.error("Conflict");
         String rootMsg = ValidationUtil.getRootCause(e).getMessage();
         return new ErrorInfo(req.getRequestURL(), DATA_ERROR, DATA_ERROR.getErrorCode(), new String[]{rootMsg});
     }

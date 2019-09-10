@@ -1,5 +1,7 @@
 package ru.manasyan.web.user;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
@@ -10,6 +12,7 @@ import ru.manasyan.model.Vote;
 import ru.manasyan.repository.DataJpaDishRepository;
 import ru.manasyan.repository.DataJpaVoteRepository;
 import ru.manasyan.to.DishTo;
+import ru.manasyan.web.ExceptionInfoHandler;
 import ru.manasyan.web.SecurityUtil;
 
 import java.time.LocalDate;
