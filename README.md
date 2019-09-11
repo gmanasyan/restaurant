@@ -29,21 +29,22 @@ Request:
  <pre>curl "SERVER_PATH/rest/menu/"</pre>
 
 Response example for 2 restaurants each have menu with 3 dishes:
- <pre> {
- "Restaurant{id=100006, dateTime=2019-08-16T13:00, name='White Rabbit'}":
- [
- {"id":100013,"name":"Squash tabbouleh ","price":1275},
- {"id":100014,"name":"The Ivy vegetarian Shepherds Pie","price":1433},
- {"id":100015,"name":"Linguine primavera ","price":1600}
- ],
+ <pre>
+ {
  "Restaurant{id=100005, dateTime=2019-08-16T13:00, name='Cafe Pushkin'}":
  [
  {"id":100007,"name":"Summer squash soup with creamed feta biscuits","price":875},
  {"id":100008,"name":"Girolle, lemon & parsley risotto","price":1500},
  {"id":100009,"name":"Mediterranean salad with quinoa, beetroot, datterini & olives","price":2250}
+ ],
+ "Restaurant{id=100006, dateTime=2019-08-16T13:00, name='White Rabbit'}":
+ [
+ {"id":100016,"name":"Squash tabbouleh ","price":1275},
+ {"id":100017,"name":"The Ivy vegetarian Shepherds Pie","price":1433},
+ {"id":100018,"name":"Linguine primavera ","price":1600}
  ]
  }
-   </pre>
+</pre>
 
 
 ### + 01.2. Vote for restaurant 
@@ -54,31 +55,70 @@ Request:
 
 Response example:
 
+<pre>
 true - vote has been added
 false - vote did't added, out of time or error
+</pre> 
 
 ### + 01.3. View vote history 
 - User can view his votes from all days by GET SERVER_PATH/rest/menu/vote/history/ 
 
 Request:
  <pre>curl "SERVER_PATH/rest/menu/vote/history"</pre>
+ 
+Response example:
+<pre>
+[
+{"id":100019,"user_id":100003,"restaurant_id":100005,"date":"2019-08-26"},
+{"id":100020,"user_id":100003,"restaurant_id":100005,"date":"2019-08-27"}
+]
+</pre>
 
 ### + 01.4. View restaurant menu by date 
-- User can view restaurant menu by date GET SERVER_PATH/rest/menu/restaurant/{restaurant_id}/{date} 
+- User can view his vote's menu for restaurant by date GET SERVER_PATH/rest/menu/restaurant/{restaurant_id}/{date} 
 
 Request:
- <pre>curl "SERVER_PATH/rest/menu/restaurant/{restaurant_id}/{date}"</pre>
+ <pre>curl "SERVER_PATH/rest/menu/restaurant/restaurants/100005/2019-08-26"</pre>
 
-
-
+Response example:
+<pre>
+[
+{"id":100010,"name":"Summer squash soup with creamed feta biscuits","price":875,"date":"2019-08-26"},
+{"id":100011,"name":"Girolle, lemon & parsley risotto","price":1500,"date":"2019-08-26"},
+{"id":100012,"name":"Mediterranean salad with quinoa, beetroot, datterini & olives","price":2250,"date":"2019-08-26"}
+]
+</pre>
  
 <br/><br/><br/>
 
 ## 02. Admin flow 
 
 ### + 02.1. View all restourants with today menu.
-- Admin can view all today's menu, empty or with dishes
+- Admin can view all today's menu, empty (what not included for regular user) or with dishes.
+- Empty restaurant menu need in case to add new dish there using restaurant id. 
 <br/>GET SERVER_PATH/rest/restaurants/
+
+Request:
+ <pre>curl "SERVER_PATH/rest/restaurants/"</pre>
+ 
+Response example for 2 restaurants each have menu with 3 dishes:
+ <pre> 
+ {
+ "Restaurant{id=100005, dateTime=2019-08-16T13:00, name='Cafe Pushkin'}":
+ [
+ {"id":100007,"name":"Summer squash soup with creamed feta biscuits","price":875},
+ {"id":100008,"name":"Girolle, lemon & parsley risotto","price":1500},
+ {"id":100009,"name":"Mediterranean salad with quinoa, beetroot, datterini & olives","price":2250}
+ ],
+ "Restaurant{id=100006, dateTime=2019-08-16T13:00, name='White Rabbit'}":
+ [
+ {"id":100016,"name":"Squash tabbouleh ","price":1275},
+ {"id":100017,"name":"The Ivy vegetarian Shepherds Pie","price":1433},
+ {"id":100018,"name":"Linguine primavera ","price":1600}
+ ]
+ }
+</pre>
+
 
 ### + 02.2. Add restaurant
 - Admin can add new restaurant by 
@@ -86,10 +126,16 @@ Request:
 
 Request: 
 <pre>
-curl -s -X POST -d '{"name":"New Restaurant"}' 
+curl -s -X POST -d '{"name":"The Ivy"}' 
 -H 'Content-Type:application/json;charset=UTF-8' 
 SERVER_PATH/rest/restaurants/`
 </pre>
+
+Response example:
+ <pre>
+{"id":100028,"name":"The Ivy","dateTime":"2019-09-11T20:24:09.2290605"}
+</pre>pre>
+
 
 ### + 02.3. Edit restaurant
 - Admin can update restaurant by by it's id

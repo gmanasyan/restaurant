@@ -2,9 +2,19 @@ package ru.manasyan.web.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import java.io.IOException;
+
 import static ru.manasyan.web.json.JacksonObjectMapper.getMapper;
 
 public class JsonUtil {
+
+    public static <T> T readValue(String json, Class<T> clazz) {
+        try {
+            return getMapper().readValue(json, clazz);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Invalid read from JSON:\n'" + json + "'", e);
+        }
+    }
 
     public static <T> String writeValue(T obj) {
         try {

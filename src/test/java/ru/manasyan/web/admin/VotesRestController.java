@@ -11,21 +11,21 @@ import static ru.manasyan.UserTestData.ADMIN;
 public class VotesRestController extends AbstractControllerTest {
     @Test
     void votesToday() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_2 + "votes")
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_RESTAURANT + "votes")
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print());
     }
 
     @Test
     void votesHistory() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_2 + "votes/2019-08-27")
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_RESTAURANT + "votes/2019-08-27")
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print());
     }
 
     @Test
     void votesHistoryRestaurant() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_2 + "100005/votes")
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_RESTAURANT + "100005/votes")
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print());
     }

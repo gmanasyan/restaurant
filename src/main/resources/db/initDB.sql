@@ -52,6 +52,9 @@ CREATE TABLE dishes
 CREATE INDEX dishes_date_idx
     ON dishes (date);
 
+CREATE INDEX dishes_date_restaurant_idx
+    ON dishes (date, restaurant_id);
+
 CREATE TABLE votes
 (
     id            INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),

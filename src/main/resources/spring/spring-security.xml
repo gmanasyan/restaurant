@@ -21,8 +21,6 @@
 <!--        </authentication-provider>-->
 <!--    </authentication-manager>-->
 
-
-
     <http pattern="/rest/**" use-expressions="true" name="restSecurityFilterChain" create-session="stateless">
         <http-basic/>
         <intercept-url pattern="/rest/restaurants/**" access="hasRole('ROLE_ADMIN')"/>

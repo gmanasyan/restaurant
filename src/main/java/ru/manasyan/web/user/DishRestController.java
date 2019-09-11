@@ -21,12 +21,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static ru.manasyan.util.Util.currentDateTime;
+import static ru.manasyan.util.Util.*;
 
 @RestController
 @RequestMapping(value = DishRestController.REST_URL,  produces = MediaType.APPLICATION_JSON_VALUE)
 public class DishRestController {
-static final String REST_URL = "/rest/menu";
+
+    static final String REST_URL = "/rest/menu";
+
+    private static Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
 
     @Autowired
     private DataJpaDishRepository dishRepository;
@@ -35,12 +38,15 @@ static final String REST_URL = "/rest/menu";
     private DataJpaVoteRepository voteRepository;
 
     @GetMapping
-    public Map<Restaurant, List<DishTo>> getAll() {
-       return getAllByDate(currentDateTime().toLocalDate());
+    public Map<Restaurant, List<DishTo>> getAll() throws Exception {
+        log.info("View today menu for all restaurants");
+        return getAllByDate(currentDateTime().toLocalDate());
     }
 
     @GetMapping("/{date}")
-    public Map<Restaurant, List<DishTo>> getAllByDate(@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("date") LocalDate date) {
+    public Map<Restaurant, List<DishTo>> getAllByDate(@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("date") LocalDate date) throws Exception {
+        int userId = SecurityUtil.authUserId();
+        log.info("View menu by date {} for all restaurants by user {}", date, userId);
         List<Dish> allDishes = dishRepository.getAll(date);
         Map<Restaurant, List<Dish>> map = allDishes.stream()
                 .collect(Collectors.groupingBy(Dish::getRestaurant));
@@ -50,37 +56,29 @@ static final String REST_URL = "/rest/menu";
         return collect;
     }
 
-    public List<DishTo> toDishTo(List<Dish> dishes) {
-        return  dishes.stream()
-                .map(d -> new DishTo(d.getId(), d.getName(), d.getPrice()))
-                .collect(Collectors.toList());
-    }
-
     @PostMapping("/vote/{id}")
     public boolean vote(@PathVariable("id") int restaurant_id) throws Exception {
         int userId = SecurityUtil.authUserId();
+        log.info("Vote for restaurant {} by user", restaurant_id, userId);
         return canVote() ? voteRepository.update(userId, restaurant_id, LocalDate.now()) : false;
-    }
-
-    public boolean canVote() {
-        return (currentDateTime().toLocalTime().isAfter(LocalTime.of(11,00)))
-                ? false : true;
     }
 
     @PostMapping("/vote/history")
     public List<Vote> history() throws Exception {
         int userId = SecurityUtil.authUserId();
+        log.info("View vote history for user {}", userId);
         List<Vote> votes = voteRepository.history(userId);
         return votes;
     }
 
     @PostMapping("/restaurants/{id}/{date}")
     public List<Dish> restaurantMenu(@PathVariable("id") int restaurant_id, @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("date") LocalDate date) throws Exception {
+        int userId = SecurityUtil.authUserId();
+        log.info("View menu for restaurant {} by date {} for user {}", restaurant_id, date, userId);
         List<Dish> dishes = dishRepository.getHistory(restaurant_id, date);
         // No need restaurant info in every dish.
         dishes.forEach(d -> d.setRestaurant(null));
         return dishes;
     }
-
 
 }

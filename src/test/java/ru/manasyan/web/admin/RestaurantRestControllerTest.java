@@ -19,7 +19,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
 
     @Test
     void allRestaurants() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_2)
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_RESTAURANT)
                 .with(userHttpBasic(ADMIN)))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -30,7 +30,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
     @Test
     void newRestaurant() throws Exception {
         Restaurant restaurant = new Restaurant(null, "The Ivy", null);
-        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL_2)
+        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL_RESTAURANT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(restaurant))
                 .with(userHttpBasic(ADMIN)))
@@ -44,7 +44,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
     @Transactional(propagation = Propagation.NEVER)
     void updateRestaurant() throws Exception {
         Restaurant restaurant = new Restaurant(100006, "New Restaurant", null);
-        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL_2+ "/100006")
+        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL_RESTAURANT+ "/100006")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(restaurant))
                 .with(userHttpBasic(ADMIN)))
@@ -57,7 +57,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
 
     @Test
     void deleteRestaurant() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete(REST_URL_2 + "100006")
+        mockMvc.perform(MockMvcRequestBuilders.delete(REST_URL_RESTAURANT + "100006")
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
@@ -69,7 +69,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
     @Transactional(propagation = Propagation.NEVER)
     void updateRestaurantConflict() throws Exception {
         Restaurant restaurant = new Restaurant(null, "The Ivy", null);
-        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL_2+ "/100006")
+        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL_RESTAURANT+ "/100006")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(restaurant))
                 .with(userHttpBasic(ADMIN)))

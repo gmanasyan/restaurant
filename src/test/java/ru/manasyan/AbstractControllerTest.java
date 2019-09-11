@@ -1,6 +1,8 @@
 package ru.manasyan;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.web.servlet.MockMvc;
@@ -12,6 +14,7 @@ import ru.manasyan.repository.DataJpaDishRepository;
 import ru.manasyan.repository.DataJpaRestaurantRepository;
 import ru.manasyan.repository.DataJpaVoteHistoryRepository;
 import ru.manasyan.repository.DataJpaVoteRepository;
+import ru.manasyan.web.ExceptionInfoHandler;
 
 import javax.annotation.PostConstruct;
 
@@ -26,8 +29,11 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 @Transactional
 public class AbstractControllerTest {
 
+    protected static final String REST_URL_MENU = "/rest/menu/";
+    protected static final String REST_URL_PROFILE = "/rest/profile/";
+    protected static final String REST_URL_RESTAURANT = "/rest/restaurants/";
 
-    protected static final String REST_URL_2 = "/rest/restaurants/";
+    protected static Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
 
     private static final CharacterEncodingFilter CHARACTER_ENCODING_FILTER = new CharacterEncodingFilter();
     static {
