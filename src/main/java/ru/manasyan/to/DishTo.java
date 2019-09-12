@@ -15,12 +15,8 @@ import java.time.LocalDate;
 
 public class DishTo extends AbstractBaseEntity {
 
-    @NotBlank
-    @Size(min = 2, max = 256)
     private String name;
 
-    @NotNull
-    @Range(min = 10, max = 200000, message = "Price must be between 0.10 and 2000")
     private Integer price;
 
     public DishTo() {

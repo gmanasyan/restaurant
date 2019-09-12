@@ -13,11 +13,13 @@ import ru.manasyan.AuthorizedUser;
 import ru.manasyan.model.User;
 import ru.manasyan.repository.DataJpaUserRepository;
 import ru.manasyan.service.UserService;
+import ru.manasyan.to.UserToIn;
 import ru.manasyan.web.ExceptionInfoHandler;
 
 import javax.validation.Valid;
 import java.net.URI;
 
+import static ru.manasyan.util.Util.updateFromTo;
 import static ru.manasyan.util.ValidationUtil.assureIdConsistent;
 import static ru.manasyan.util.ValidationUtil.checkNew;
 
@@ -53,10 +55,10 @@ public class ProfileRestController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody User user, @AuthenticationPrincipal AuthorizedUser authUser) {
-        log.info("Update user {} with info {}", authUser.getId(), user.toString());
-        assureIdConsistent(user, authUser.getId());
-        userService.update(user);
+    public void update(@Valid @RequestBody UserToIn userTo, @AuthenticationPrincipal AuthorizedUser authUser) {
+        log.info("Update user {} with info {}", authUser.getId(), userTo.toString());
+        assureIdConsistent(userTo, authUser.getId());
+        userService.update(updateFromTo(userTo, userService.get(authUser.getId())));
     }
 
 }

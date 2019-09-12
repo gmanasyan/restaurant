@@ -26,6 +26,4 @@ public class DataJpaUserRepository {
         return crudUserRepository.getByEmail(email);
     }
 
-
-
 }

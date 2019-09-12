@@ -41,16 +41,4 @@ public class DataJpaDishRepository {
         crudDishRepository.delete(get(id));
     }
 
-//    public Map<Restaurant, List<Dish>> getAllByRestaurant(LocalDate date) {
-//        List<Dish> allDishes = crudDishRepository.getAll(date);
-//        Map<Restaurant, List<Dish>> map = allDishes.stream()
-//                .collect(Collectors.groupingBy(Dish::getRestaurant));
-//        return map;
-//    }
-
-//    public Dish get() {
-//        return crudDishRepository.getOne();
-//    }
-
-
 }

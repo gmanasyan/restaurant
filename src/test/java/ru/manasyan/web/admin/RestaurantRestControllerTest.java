@@ -28,8 +28,9 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
+    @Transactional(propagation = Propagation.NEVER)
     void newRestaurant() throws Exception {
-        Restaurant restaurant = new Restaurant(null, "The Ivy", null);
+        Restaurant restaurant = new Restaurant(null, "The New Restaurant", null);
         mockMvc.perform(MockMvcRequestBuilders.post(REST_URL_RESTAURANT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(restaurant))

@@ -2,6 +2,7 @@ package ru.manasyan.web.admin;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.manasyan.model.Dish;
 import ru.manasyan.model.Restaurant;
@@ -9,6 +10,7 @@ import ru.manasyan.to.DishTo;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,7 +35,7 @@ public class RestaurantRestController extends AbstractRestController {
         Map<Restaurant, List<DishTo>> collect = map.entrySet().stream()
                 .collect(Collectors.toMap(e -> e.getKey(), e -> toDishTo(e.getValue())));
 
-        restaurants.forEach(r -> collect.putIfAbsent(r, null));
+        restaurants.forEach(r -> collect.putIfAbsent(r, new ArrayList<>()));
 
         return collect;
     }
@@ -44,7 +46,7 @@ public class RestaurantRestController extends AbstractRestController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public Restaurant createRestaurant(@Valid @RequestBody Restaurant restaurant) {
         log.info("Create restaurant {} ", restaurant.toString());
         checkNew(restaurant);

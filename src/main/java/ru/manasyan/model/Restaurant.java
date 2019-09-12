@@ -1,7 +1,9 @@
 package ru.manasyan.model;
 
 import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.format.annotation.DateTimeFormat;
 import ru.manasyan.View;
+import ru.manasyan.util.Util;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -23,12 +25,8 @@ public class Restaurant extends AbstractBaseEntity {
 
     @Column(name = "date_time", nullable = false)
     @NotNull(groups = View.Persist.class)
+    @DateTimeFormat(pattern = Util.DATE_TIME_PATTERN)
     private LocalDateTime dateTime;
-
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
-//    @OrderBy("date DESC")
-////    @JsonIgnore
-//    protected List<Dish> dishes;
 
     public Restaurant () {
     }

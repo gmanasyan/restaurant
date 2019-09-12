@@ -63,7 +63,7 @@ public class DishRestController {
         return canVote() ? voteRepository.update(userId, restaurant_id, LocalDate.now()) : false;
     }
 
-    @PostMapping("/vote/history")
+    @GetMapping("/vote/history")
     public List<Vote> history() throws Exception {
         int userId = SecurityUtil.authUserId();
         log.info("View vote history for user {}", userId);
@@ -71,7 +71,7 @@ public class DishRestController {
         return votes;
     }
 
-    @PostMapping("/restaurants/{id}/{date}")
+    @GetMapping("/restaurants/{id}/{date}")
     public List<Dish> restaurantMenu(@PathVariable("id") int restaurant_id, @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("date") LocalDate date) throws Exception {
         int userId = SecurityUtil.authUserId();
         log.info("View menu for restaurant {} by date {} for user {}", restaurant_id, date, userId);

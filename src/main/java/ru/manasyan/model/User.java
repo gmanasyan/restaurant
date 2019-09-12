@@ -1,7 +1,14 @@
 package ru.manasyan.model;
 
+import org.hibernate.validator.constraints.SafeHtml;
+import org.springframework.format.annotation.DateTimeFormat;
+import ru.manasyan.View;
+import ru.manasyan.util.Util;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.EnumSet;
@@ -12,16 +19,20 @@ import java.util.Set;
 public class User extends AbstractBaseEntity {
 
     @Column(name = "name", nullable = false)
+    @NotBlank
+    @Size(min = 2, max = 100)
     private String name;
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
+    @Size(max = 100)
     private String email;
 
     @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "registered", nullable = false)
+    @DateTimeFormat(pattern = Util.DATE_TIME_PATTERN)
     private LocalDateTime registered = LocalDateTime.now();
 
     @Enumerated(EnumType.STRING)
@@ -84,5 +95,16 @@ public class User extends AbstractBaseEntity {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email=" + email +
+                ", name=" + name +
+                ", registered=" + registered +
+                ", roles=" + roles +
+                '}';
     }
 }

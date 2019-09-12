@@ -7,6 +7,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.manasyan.AbstractControllerTest;
 import ru.manasyan.model.Role;
 import ru.manasyan.model.User;
+import ru.manasyan.to.UserToIn;
 import ru.manasyan.web.json.JsonUtil;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -15,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.manasyan.TestUtil.readFromJson;
 import static ru.manasyan.TestUtil.userHttpBasic;
 import static ru.manasyan.UserTestData.*;
+import static ru.manasyan.model.Role.ROLE_ADMIN;
 import static ru.manasyan.model.Role.ROLE_USER;
 
 public class ProfileRestControllerTest extends AbstractControllerTest {
@@ -53,12 +55,14 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
 
     @Test
     void update() throws Exception {
-        User newUser = new User(null, "UserName", "useremail@gmail", "newPassword", ROLE_USER);
+        UserToIn newUser = new UserToIn(null, "UserName", "newPassword");
         mockMvc.perform(MockMvcRequestBuilders.put(REST_URL_PROFILE).contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(USER1))
                 .content(JsonUtil.writeValue(newUser)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
+
+        log.info(userRepository.get(USER1_ID).toString());
     }
 
 }

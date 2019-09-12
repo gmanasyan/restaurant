@@ -13,19 +13,21 @@ import java.time.LocalDate;
 public class History extends AbstractBaseEntity {
 
     @Column(name = "restaurant_id", nullable = false)
-    private int restaurant_id;
+    @NotNull
+    private Integer restaurant_id;
 
     @Column(name = "date", nullable = false)
+    @NotNull
     private LocalDate date;
 
     @Column(name = "votes", nullable = false)
-    private int votes;
-
+    @NotNull
+    private Integer votes;
 
     public History() {
     }
 
-    public History(Integer id, int restaurant_id, LocalDate date, int votes) {
+    public History(Integer id, Integer restaurant_id, LocalDate date, Integer votes) {
         super(id);
         this.restaurant_id = restaurant_id;
         this.date = date;
@@ -37,11 +39,11 @@ public class History extends AbstractBaseEntity {
     }
 
 
-    public int getRestaurant_id() {
+    public Integer getRestaurant_id() {
         return restaurant_id;
     }
 
-    public void setRestaurant_id(int restaurant_id) {
+    public void setRestaurant_id(Integer restaurant_id) {
         this.restaurant_id = restaurant_id;
     }
 
@@ -53,11 +55,11 @@ public class History extends AbstractBaseEntity {
         this.date = date;
     }
 
-    public int getVotes() {
+    public Integer getVotes() {
         return votes;
     }
 
-    public void setVotes(int votes) {
+    public void setVotes(Integer votes) {
         this.votes = votes;
     }
 

@@ -10,10 +10,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import ru.manasyan.repository.DataJpaDishRepository;
-import ru.manasyan.repository.DataJpaRestaurantRepository;
-import ru.manasyan.repository.DataJpaVoteHistoryRepository;
-import ru.manasyan.repository.DataJpaVoteRepository;
+import ru.manasyan.repository.*;
 import ru.manasyan.web.ExceptionInfoHandler;
 
 import javax.annotation.PostConstruct;
@@ -57,6 +54,9 @@ public class AbstractControllerTest {
 
     @Autowired
     protected DataJpaVoteHistoryRepository historyRepository;
+
+    @Autowired
+    protected DataJpaUserRepository userRepository;
 
     @PostConstruct
     private void postConstruct() {

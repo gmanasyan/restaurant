@@ -42,8 +42,8 @@ public class DataJpaVoteRepository {
         return vote;
     }
 
-    public List<VotesStatistics> getToday(LocalDate date) {
-        List<VotesStatistics> votes = crudVoteRepository.getToday(date);
+    public List<VotesStatistics> get(LocalDate date) {
+        List<VotesStatistics> votes = crudVoteRepository.get(date);
         return votes;
     }
 

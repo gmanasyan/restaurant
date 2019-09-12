@@ -18,17 +18,17 @@ public class Dish extends AbstractBaseEntity {
 
     @Column(name = "name", nullable = false)
     @NotBlank
-    @Size(min = 2, max = 256)
+    @Size(min = 2, max = 256, message = "Dish name must be more than 2 symbols and less than 256")
     private String name;
 
     @Column(name = "price", nullable = false)
     @NotNull
-    @Range(min = 10, max = 200000)
+    @Range(min = 10, max = 200000, message = "Price must be between 0.10 and 2000")
     private Integer price;
 
 //    @Column(name = "restaurant_id", nullable = false)
 //    private int restaurant_id;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull(groups = View.Persist.class)
@@ -40,10 +40,6 @@ public class Dish extends AbstractBaseEntity {
 
     public Dish() {
     }
-
-//    public Dish(String name, int price, LocalDate date) {
-//        this(null, name, price, date, null);
-//    }
 
     public Dish(Integer id, String name, int price, LocalDate date, Restaurant restaurant) {
         super(id);

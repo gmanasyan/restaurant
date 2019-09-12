@@ -1,7 +1,9 @@
 package ru.manasyan.util;
 
 import ru.manasyan.model.Dish;
+import ru.manasyan.model.User;
 import ru.manasyan.to.DishTo;
+import ru.manasyan.to.UserToIn;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,6 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Util {
+
+    public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";
 
     public static LocalDateTime currentDateTime() {
 
@@ -30,4 +34,12 @@ public class Util {
         return (currentDateTime().toLocalTime().isAfter(LocalTime.of(11,00)))
                 ? false : true;
     }
+
+    public static User updateFromTo(UserToIn userTo, User user) {
+        user.setName(userTo.getName());
+        user.setPassword(userTo.getPassword());
+        return  user;
+    }
+
+
 }

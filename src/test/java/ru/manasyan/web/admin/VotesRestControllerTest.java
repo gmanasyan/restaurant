@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static ru.manasyan.TestUtil.userHttpBasic;
 import static ru.manasyan.UserTestData.ADMIN;
 
-public class VotesRestController extends AbstractControllerTest {
+public class VotesRestControllerTest extends AbstractControllerTest {
     @Test
     void votesToday() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_RESTAURANT + "votes")

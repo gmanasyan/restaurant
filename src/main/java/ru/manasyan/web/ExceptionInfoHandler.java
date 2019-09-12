@@ -49,6 +49,7 @@ public class ExceptionInfoHandler {
                         ". Error details: " + fe.getDefaultMessage())
                 .toArray(String[]::new);
 
+        log.error("{} - {}", VALIDATION_ERROR.getErrorCode(), details);
         return new ErrorInfo(req.getRequestURL(), VALIDATION_ERROR, VALIDATION_ERROR.getErrorCode(), details);
     }
 
@@ -61,8 +62,8 @@ public class ExceptionInfoHandler {
    @ResponseStatus(value = HttpStatus.CONFLICT)  // 409
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ErrorInfo conflict(HttpServletRequest req, DataIntegrityViolationException e) {
-        log.error("Conflict");
         String rootMsg = ValidationUtil.getRootCause(e).getMessage();
+        log.error("{} - {}", DATA_ERROR.getErrorCode(), rootMsg);
         return new ErrorInfo(req.getRequestURL(), DATA_ERROR, DATA_ERROR.getErrorCode(), new String[]{rootMsg});
     }
 

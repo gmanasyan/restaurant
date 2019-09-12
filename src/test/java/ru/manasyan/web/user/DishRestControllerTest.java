@@ -41,7 +41,7 @@ public class DishRestControllerTest extends AbstractControllerTest {
 
     @Test
     void history() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL_MENU + "/vote/history")
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_MENU + "/vote/history")
                 .with(userHttpBasic(USER3)))
                 .andExpect(status().isOk())
                 .andDo(print());
@@ -51,7 +51,7 @@ public class DishRestControllerTest extends AbstractControllerTest {
 
     @Test
     void historyMenu() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL_MENU + "/restaurants/100005/2019-08-26")
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_MENU + "/restaurants/100005/2019-08-26")
                 .with(userHttpBasic(USER3)))
                 .andExpect(status().isOk())
                 .andDo(print());
