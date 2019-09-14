@@ -26,8 +26,6 @@ public class Dish extends AbstractBaseEntity {
     @Range(min = 10, max = 200000, message = "Price must be between 0.10 and 2000")
     private Integer price;
 
-//    @Column(name = "restaurant_id", nullable = false)
-//    private int restaurant_id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

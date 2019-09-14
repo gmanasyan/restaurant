@@ -24,7 +24,7 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
     @Test
     void get() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_PROFILE)
-                .with(userHttpBasic(USER1)))
+                .with(userHttpBasic(USER2)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));

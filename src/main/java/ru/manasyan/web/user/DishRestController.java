@@ -5,11 +5,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.manasyan.model.Dish;
 import ru.manasyan.model.Restaurant;
 import ru.manasyan.model.Vote;
 import ru.manasyan.repository.DataJpaDishRepository;
+import ru.manasyan.repository.DataJpaRestaurantRepository;
 import ru.manasyan.repository.DataJpaVoteRepository;
 import ru.manasyan.to.DishTo;
 import ru.manasyan.web.ExceptionInfoHandler;
@@ -37,6 +40,9 @@ public class DishRestController {
     @Autowired
     private DataJpaVoteRepository voteRepository;
 
+    @Autowired
+    private DataJpaRestaurantRepository restaurantRepository;
+
     @GetMapping
     public Map<Restaurant, List<DishTo>> getAll() throws Exception {
         log.info("View today menu for all restaurants");
@@ -48,11 +54,11 @@ public class DishRestController {
         int userId = SecurityUtil.authUserId();
         log.info("View menu by date {} for all restaurants by user {}", date, userId);
         List<Dish> allDishes = dishRepository.getAll(date);
-        Map<Restaurant, List<Dish>> map = allDishes.stream()
-                .collect(Collectors.groupingBy(Dish::getRestaurant));
+        Map<Integer, List<Dish>> map = allDishes.stream()
+                .collect(Collectors.groupingBy(d -> d.getRestaurant().getId()));
 
         Map<Restaurant, List<DishTo>> collect = map.entrySet().stream()
-                .collect(Collectors.toMap(e -> e.getKey(), e -> toDishTo(e.getValue())));
+                .collect(Collectors.toMap(e -> restaurantRepository.get(e.getKey()), e -> toDishTo(e.getValue())));
         return collect;
     }
 

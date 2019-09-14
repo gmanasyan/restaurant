@@ -28,7 +28,6 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Transactional(propagation = Propagation.NEVER)
     void newRestaurant() throws Exception {
         Restaurant restaurant = new Restaurant(null, "The New Restaurant", null);
         mockMvc.perform(MockMvcRequestBuilders.post(REST_URL_RESTAURANT)
@@ -42,10 +41,9 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Transactional(propagation = Propagation.NEVER)
     void updateRestaurant() throws Exception {
-        Restaurant restaurant = new Restaurant(100006, "New Restaurant", null);
-        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL_RESTAURANT+ "/100006")
+        Restaurant restaurant = new Restaurant(100005, "New Restaurant", null);
+        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL_RESTAURANT+ "/100005")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(restaurant))
                 .with(userHttpBasic(ADMIN)))
@@ -67,10 +65,9 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @Transactional(propagation = Propagation.NEVER)
     void updateRestaurantConflict() throws Exception {
         Restaurant restaurant = new Restaurant(null, "The Ivy", null);
-        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL_RESTAURANT+ "/100006")
+        mockMvc.perform(MockMvcRequestBuilders.put(REST_URL_RESTAURANT+ "/100005")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(restaurant))
                 .with(userHttpBasic(ADMIN)))

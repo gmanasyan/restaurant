@@ -3,6 +3,7 @@ package ru.manasyan.web.admin;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.manasyan.model.Dish;
 
@@ -27,6 +28,7 @@ public class MenuRestController extends AbstractRestController {
     }
 
     @PutMapping("dishes/{id}")
+    @Transactional
     public Dish updateDish(@Valid @RequestBody Dish dishUpdate, @PathVariable("id") int id) throws Exception {
         log.info("Update dish id {} with data {} ",id, dishUpdate.toString());
         assureIdConsistent(dishUpdate, id);
@@ -34,6 +36,7 @@ public class MenuRestController extends AbstractRestController {
         Dish dish = dishRepository.get(id);
         if (dish.getDate().equals(LocalDate.now())) {
             dishUpdate.setRestaurant(dish.getRestaurant());
+            dishUpdate.setDate(dish.getDate());
             return dishRepository.save(dishUpdate);
         } else throw new DataIntegrityViolationException("Only today dishes can be updated: " + dishUpdate);
     }

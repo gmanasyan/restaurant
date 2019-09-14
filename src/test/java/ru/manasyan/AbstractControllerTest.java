@@ -23,7 +23,7 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
         "classpath:spring/spring-db.xml"
 })
 
-@Transactional
+
 public class AbstractControllerTest {
 
     protected static final String REST_URL_MENU = "/rest/menu/";

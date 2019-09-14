@@ -3,6 +3,7 @@ package ru.manasyan.web.admin;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.manasyan.model.Dish;
 import ru.manasyan.model.Restaurant;
@@ -21,6 +22,7 @@ import static ru.manasyan.util.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = "/rest/restaurants",  produces = MediaType.APPLICATION_JSON_VALUE)
+@Transactional
 public class RestaurantRestController extends AbstractRestController {
 
     @GetMapping
