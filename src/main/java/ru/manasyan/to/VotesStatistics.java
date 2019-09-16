@@ -1,7 +1,5 @@
 package ru.manasyan.to;
 
-import ru.manasyan.model.Restaurant;
-
 public class VotesStatistics {
 
     private Integer restaurant;

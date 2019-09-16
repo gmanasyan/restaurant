@@ -10,12 +10,6 @@
        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
-    <!--
-        For postgres driver logging
-        It uses java.util.logging and logged via jul-to-slf4j bridge
-        https://stackoverflow.com/a/27296470/548473
-    -->
-
     <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
         <jdbc:script location="classpath:db/${jdbc.initLocation}"/>
         <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
@@ -25,7 +19,8 @@
     <!-- Change DB by comment/uncomment property-placeholder -->
 
     <!-- HSQL DB -->
-    <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
+
+    <context:property-placeholder location="classpath:db/hsqldb.properties, classpath:app.properties" system-properties-mode="OVERRIDE"/>
 
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource"
@@ -34,9 +29,9 @@
           p:username="${database.username}"
           p:password="${database.password}"/>
 
-
     <!-- Postgres DB -->
-    <!--    <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>-->
+
+<!--    <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>-->
 <!--    &lt;!&ndash;no pooling&ndash;&gt;-->
 <!--    <bean id="dataSource"-->
 <!--          class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
@@ -45,6 +40,8 @@
 <!--        <property name="username" value="${database.username}"/>-->
 <!--        <property name="password" value="${database.password}"/>-->
 <!--    </bean>-->
+
+    <!-- entityManagerFactory for all database types -->
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
           p:dataSource-ref="dataSource"
@@ -76,7 +73,6 @@
     <!-- Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) -->
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
           p:entityManagerFactory-ref="entityManagerFactory"/>
-
 
     <!-- datajpa -->
     <context:component-scan base-package="ru.manasyan.**.repository"/>

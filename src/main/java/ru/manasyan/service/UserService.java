@@ -3,7 +3,6 @@ package ru.manasyan.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import ru.manasyan.AuthorizedUser;
 import ru.manasyan.model.User;
-import ru.manasyan.repository.CrudUserRepository;
 import ru.manasyan.repository.DataJpaUserRepository;
 
 @Service("userService")
@@ -47,7 +45,6 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User " + email + " is not found");
         }
-        //return new AuthorizedUser(user)
         return new AuthorizedUser(user);
     }
 

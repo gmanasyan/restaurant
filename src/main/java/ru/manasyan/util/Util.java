@@ -5,7 +5,6 @@ import ru.manasyan.model.User;
 import ru.manasyan.to.DishTo;
 import ru.manasyan.to.UserToIn;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -30,8 +29,8 @@ public class Util {
                 .collect(Collectors.toList());
     }
 
-    public static boolean canVote() {
-        return (currentDateTime().toLocalTime().isAfter(LocalTime.of(11,00)))
+    public static boolean canVote(String voteEndTime) {
+        return (currentDateTime().toLocalTime().isAfter(LocalTime.parse(voteEndTime)))
                 ? false : true;
     }
 

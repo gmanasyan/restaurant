@@ -5,7 +5,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.manasyan.AbstractControllerTest;
-import ru.manasyan.model.Role;
 import ru.manasyan.model.User;
 import ru.manasyan.to.UserToIn;
 import ru.manasyan.web.json.JsonUtil;
@@ -16,7 +15,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.manasyan.TestUtil.readFromJson;
 import static ru.manasyan.TestUtil.userHttpBasic;
 import static ru.manasyan.UserTestData.*;
-import static ru.manasyan.model.Role.ROLE_ADMIN;
 import static ru.manasyan.model.Role.ROLE_USER;
 
 public class ProfileRestControllerTest extends AbstractControllerTest {

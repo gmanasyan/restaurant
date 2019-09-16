@@ -1,17 +1,7 @@
 package ru.manasyan.to;
 
-import org.hibernate.validator.constraints.Range;
-import ru.manasyan.model.AbstractBaseEntity;
-import ru.manasyan.model.Restaurant;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.time.LocalDate;
+import ru.manasyan.model.AbstractBaseEntity;
 
 public class DishTo extends AbstractBaseEntity {
 

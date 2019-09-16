@@ -3,8 +3,6 @@ package ru.manasyan.web.admin;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import ru.manasyan.AbstractControllerTest;
 import ru.manasyan.model.Restaurant;
 import ru.manasyan.web.json.JsonUtil;

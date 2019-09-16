@@ -18,15 +18,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import ru.manasyan.util.ValidationUtil;
 import ru.manasyan.util.exception.ErrorInfo;
-import ru.manasyan.util.exception.ErrorType;
 import ru.manasyan.util.exception.IllegalRequestDataException;
 
 import javax.servlet.http.HttpServletRequest;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
 
 import static ru.manasyan.util.exception.ErrorType.*;
 import static ru.manasyan.util.ValidationUtil.logAndGetErrorInfo;

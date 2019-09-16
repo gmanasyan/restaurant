@@ -1,22 +1,16 @@
 package ru.manasyan.web;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindException;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import ru.manasyan.util.exception.ErrorInfo;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static ru.manasyan.util.ValidationUtil.getRootCause;
 import static ru.manasyan.util.ValidationUtil.logAndGetErrorInfo;
 import static ru.manasyan.util.exception.ErrorType.*;
 

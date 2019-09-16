@@ -3,8 +3,6 @@ package ru.manasyan.to;
 import ru.manasyan.model.AbstractBaseEntity;
 import ru.manasyan.model.Restaurant;
 
-import javax.persistence.Column;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public class HistoryTo extends AbstractBaseEntity {

@@ -3,7 +3,6 @@ package ru.manasyan.repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.manasyan.model.History;
-import ru.manasyan.model.Vote;
 
 import java.time.LocalDate;
 import java.util.List;

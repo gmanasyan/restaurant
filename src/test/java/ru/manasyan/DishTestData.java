@@ -1,7 +1,6 @@
 package ru.manasyan;
 
 import ru.manasyan.model.Dish;
-import ru.manasyan.model.User;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

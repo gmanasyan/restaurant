@@ -1,9 +1,6 @@
 package ru.manasyan;
 
-import org.springframework.security.core.GrantedAuthority;
 import ru.manasyan.model.User;
-
-import java.util.Collection;
 
 public class AuthorizedUser extends org.springframework.security.core.userdetails.User {
 

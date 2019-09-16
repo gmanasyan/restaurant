@@ -23,7 +23,6 @@ public class DishRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-        //.andExpect(result -> assertMatch(readFromJsonMvcResult(result, Meal.class), ADMIN_MEAL1));
     }
 
     @Test
@@ -31,12 +30,8 @@ public class DishRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post(REST_URL_MENU + "/vote/100006")
                 .with(userHttpBasic(USER1)))
                 .andExpect(status().isOk())
-                .andDo(print());
-        //.andExpect(result -> result.getResponse().getContentAsString().equals("true"));
-
-        System.out.println(voteRepository.get(USER1.getId(), LocalDate.now()));
-        System.out.println(historyRepository.get(LocalDate.now()));
-
+                .andDo(print())
+                .andExpect(content().string("true"));
     }
 
     @Test
@@ -45,8 +40,6 @@ public class DishRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(USER3)))
                 .andExpect(status().isOk())
                 .andDo(print());
-        //.andExpect(result -> result.getResponse().getContentAsString().equals("true"));
-
     }
 
     @Test
@@ -55,8 +48,6 @@ public class DishRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(USER3)))
                 .andExpect(status().isOk())
                 .andDo(print());
-        //.andExpect(result -> result.getResponse().getContentAsString().equals("true"));
-
     }
 
 }

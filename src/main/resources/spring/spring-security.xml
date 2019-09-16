@@ -4,23 +4,6 @@
              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-<!--    <http pattern="/" security="none"/>-->
-
-    <!--    <http auto-config="true">-->
-<!--        <intercept-url pattern="/admin**" access="ROLE_ADMIN" />-->
-<!--        <intercept-url pattern="/dba**" access="ROLE_ADMIN,ROLE_DBA" />-->
-<!--    </http>-->
-
-<!--    <authentication-manager>-->
-<!--        <authentication-provider>-->
-<!--            <user-service>-->
-<!--                <user name="mkyong" password="123456" authorities="ROLE_USER" />-->
-<!--                <user name="admin" password="123456" authorities="ROLE_ADMIN" />-->
-<!--                <user name="dba" password="123456" authorities="ROLE_DBA" />-->
-<!--            </user-service>-->
-<!--        </authentication-provider>-->
-<!--    </authentication-manager>-->
-
     <http pattern="/rest/**" use-expressions="true" name="restSecurityFilterChain" create-session="stateless">
         <http-basic/>
         <intercept-url pattern="/rest/restaurants/**" access="hasRole('ROLE_ADMIN')"/>
@@ -48,17 +31,6 @@
     <authentication-manager>
         <authentication-provider user-service-ref="userService">
             <password-encoder ref="passwordEncoder"/>
-<!--
-            <jdbc-user-service data-source-ref="dataSource"
-                               users-by-username-query="SELECT email, password, enabled FROM users WHERE email = ?"
-                               authorities-by-username-query="
-                                                       SELECT u.email, r.role FROM users u, user_roles r WHERE u.id = r.user_id AND u.email = ?"
-            />
-            <user-service>
-                <user name="user@yandex.ru" password="password" authorities="ROLE_USER"/>
-                <user name="admin@gmail.com" password="admin" authorities="ROLE_ADMIN"/>
-            </user-service>
--->
         </authentication-provider>
     </authentication-manager>
 </beans:beans>

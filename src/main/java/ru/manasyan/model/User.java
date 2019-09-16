@@ -1,8 +1,6 @@
 package ru.manasyan.model;
 
-import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
-import ru.manasyan.View;
 import ru.manasyan.util.Util;
 
 import javax.persistence.*;
@@ -10,7 +8,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.EnumSet;
 import java.util.Set;
 

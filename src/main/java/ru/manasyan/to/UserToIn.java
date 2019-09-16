@@ -2,14 +2,9 @@ package ru.manasyan.to;
 
 import org.hibernate.validator.constraints.SafeHtml;
 import ru.manasyan.model.AbstractBaseEntity;
-import ru.manasyan.model.Role;
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
-import java.util.Set;
 
 public class UserToIn extends AbstractBaseEntity {
 

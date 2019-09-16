@@ -8,7 +8,6 @@ import ru.manasyan.model.Dish;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 @Transactional(readOnly = true)
 public interface CrudDishRepository  extends JpaRepository<Dish, Integer> {

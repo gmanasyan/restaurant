@@ -11,9 +11,6 @@
 
     <bean class="ru.manasyan.web.json.JacksonObjectMapper" id="objectMapper" factory-method="getMapper"/>
 
-<!--    <bean id="validator"-->
-<!--          class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>-->
-
     <!--Security-->
     <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
 
@@ -32,13 +29,8 @@
         </mvc:argument-resolvers>
     </mvc:annotation-driven>
 
-
     <bean class="org.springframework.format.support.FormattingConversionServiceFactoryBean" id="conversionService">
     </bean>
-
-
-    <!-- serve static resources (*.html, ...) from src/main/webapp/ -->
-<!--    <mvc:default-servlet-handler/>-->
 
     <context:component-scan base-package="ru.manasyan.**.web"/>
 

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.manasyan.AuthorizedUser;
 import ru.manasyan.model.User;
-import ru.manasyan.repository.DataJpaUserRepository;
 import ru.manasyan.service.UserService;
 import ru.manasyan.to.UserToIn;
 import ru.manasyan.web.ExceptionInfoHandler;

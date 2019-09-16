@@ -1,15 +1,11 @@
 package ru.manasyan.model;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import ru.manasyan.View;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "history")
+@Table(name = "history", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "date"}, name = "history_unique_date_restaurant_idx")})
 public class History extends AbstractBaseEntity {
 
     @Column(name = "restaurant_id", nullable = false)

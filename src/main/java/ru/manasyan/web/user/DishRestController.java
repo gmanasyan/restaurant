@@ -3,10 +3,13 @@ package ru.manasyan.web.user;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.env.Environment;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.manasyan.model.Dish;
 import ru.manasyan.model.Restaurant;
@@ -19,7 +22,6 @@ import ru.manasyan.web.ExceptionInfoHandler;
 import ru.manasyan.web.SecurityUtil;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,6 +33,9 @@ import static ru.manasyan.util.Util.*;
 public class DishRestController {
 
     static final String REST_URL = "/rest/menu";
+
+    @Value("${vote.endTime}")
+    private String voteEndTime;
 
     private static Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
 
@@ -66,7 +71,7 @@ public class DishRestController {
     public boolean vote(@PathVariable("id") int restaurant_id) throws Exception {
         int userId = SecurityUtil.authUserId();
         log.info("Vote for restaurant {} by user", restaurant_id, userId);
-        return canVote() ? voteRepository.update(userId, restaurant_id, LocalDate.now()) : false;
+        return canVote(voteEndTime) ? voteRepository.update(userId, restaurant_id, LocalDate.now()) : false;
     }
 
     @GetMapping("/vote/history")
