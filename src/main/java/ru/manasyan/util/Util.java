@@ -17,10 +17,10 @@ public class Util {
     public static LocalDateTime currentDateTime() {
 
         // for production
-        //return LocalDateTime.now();
+        return LocalDateTime.now();
 
         // for debug
-        return LocalDateTime.of(2019, 8, 16, 11,00);
+        //return LocalDateTime.of(2019, 8, 16, 11,00);
     }
 
     public static List<DishTo> toDishTo(List<Dish> dishes) {

@@ -12,13 +12,13 @@ import java.util.List;
 @Transactional(readOnly = true)
 public interface CrudVoteHistoryRepository extends JpaRepository<History, Integer> {
 
-    @Query("SELECT h FROM History h WHERE h.date=:date")
+    @Query("SELECT h FROM History h WHERE h.date=:date ORDER BY h.votes DESC" )
     List<History> get(@Param("date") LocalDate date);
 
     @Query("SELECT h FROM History h WHERE h.date=:date AND h.restaurant_id = :restaurant_id")
     History get(@Param("date") LocalDate date, @Param("restaurant_id") Integer restaurant_id);
 
-    @Query("SELECT h FROM History h WHERE h.restaurant_id=:restaurant_id")
+    @Query("SELECT h FROM History h WHERE h.restaurant_id=:restaurant_id ORDER BY h.date ASC")
     List<History> get(@Param("restaurant_id") Integer id);
 
 

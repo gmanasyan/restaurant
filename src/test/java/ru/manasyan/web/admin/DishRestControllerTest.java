@@ -27,8 +27,6 @@ public class DishRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isOk());
-//                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-//                .andExpect(res -> assertMatch(readFromJsonMvcResult(res, Dish.class), dish));
 
         Dish dishReturned = readFromJson(result, Dish.class);
         dish.setId(dishReturned.getId());
@@ -60,7 +58,6 @@ public class DishRestControllerTest extends AbstractControllerTest {
         Dish dishReturned = readFromJson(resultUpdate, Dish.class);
         assertMatch(dishReturned, dishUpdated);
 
-      //  log.info(dishRepository.get(newDish.getId()).toString());
     }
 
     @Test
@@ -91,6 +88,8 @@ public class DishRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
+
+        assertMatch(dishRepository.get(100007), null);
     }
 
     @Test

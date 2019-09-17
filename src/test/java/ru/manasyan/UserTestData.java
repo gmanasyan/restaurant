@@ -1,9 +1,11 @@
 package ru.manasyan;
 
+import org.springframework.test.web.servlet.ResultMatcher;
 import ru.manasyan.model.Role;
 import ru.manasyan.model.User;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static ru.manasyan.TestUtil.readFromJsonMvcResult;
 import static ru.manasyan.model.AbstractBaseEntity.START_SEQ;
 
 public class UserTestData {
@@ -20,6 +22,10 @@ public class UserTestData {
 
     public static void assertMatch(User actual, User expected) {
         assertThat(actual).isEqualToIgnoringGivenFields(expected, "registered", "password");
+    }
+
+    public static ResultMatcher contentJson(User expected) {
+        return result -> assertMatch(readFromJsonMvcResult(result, User.class), expected);
     }
 
 }

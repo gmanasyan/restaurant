@@ -25,8 +25,8 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(USER2)))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-                //.andExpect(contentJson(USER1));
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(contentJson(USER2));
     }
 
     @Test
@@ -60,7 +60,11 @@ public class ProfileRestControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        log.info(userRepository.get(USER1_ID).toString());
+        User expected = new User(USER1);
+        expected.setName(newUser.getName());
+        expected.setPassword(newUser.getPassword());
+
+        assertMatch(userRepository.get(USER1_ID), expected);
     }
 
 }

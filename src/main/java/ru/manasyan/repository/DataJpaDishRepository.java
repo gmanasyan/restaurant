@@ -25,7 +25,7 @@ public class DataJpaDishRepository {
     }
 
     public Dish get(int id) {
-        return crudDishRepository.getOne(id);
+        return crudDishRepository.getWithRestaurant(id);
     }
 
     public List<Dish> getHistory(int restaurant_id, LocalDate date) {

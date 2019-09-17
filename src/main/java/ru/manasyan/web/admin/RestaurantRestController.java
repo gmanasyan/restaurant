@@ -69,4 +69,10 @@ public class RestaurantRestController extends AbstractRestController {
         log.info("Delete restaurant {} ", id);
         restaurantRepository.delete(id);
     }
+
+    @GetMapping("/{id}")
+    public Restaurant getRestaurant(@PathVariable("id") int id) {
+        log.info("Get restaurant {}", id);
+        return restaurantRepository.get(id);
+    }
 }

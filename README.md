@@ -32,11 +32,12 @@ Use for instance: curl --user user1@gmail.com:password
 </pre>
 
 ### 01.1. View lunch menu
-- User can view lunch menu from all restaurants by 
-<br/>GET SERVER_PATH/rest/menu/
+- User can view lunch menu from all restaurants by
+- For user dishes sorted by price. 
+<br/>GET http://localhost:8080/restaurant/rest/menu/
 
 Request:
- <pre>curl -v --user user1@gmail.com:password "SERVER_PATH/rest/menu/"</pre>
+ <pre>curl -v --user user1@gmail.com:password "http://localhost:8080/restaurant/rest/menu/"</pre>
 
 Response example for 2 restaurants each have menu with 3 dishes:
  <pre>
@@ -58,10 +59,10 @@ Response example for 2 restaurants each have menu with 3 dishes:
 
 
 ### 01.2. Vote for restaurant 
-- User can vote for restaurant by POST SERVER_PATH/rest/menu/vote/{restaurant_id} 
+- User can vote for restaurant by POST http://localhost:8080/restaurant/rest/menu/vote/{restaurant_id} 
 
 Request:
- <pre>curl -X POST -v --user user1@gmail.com:password "SERVER_PATH/rest/menu/vote/34"</pre>
+ <pre>curl -X POST -v --user user1@gmail.com:password "http://localhost:8080/restaurant/rest/menu/vote/34"</pre>
 
 Response example:
 
@@ -71,10 +72,10 @@ false - vote did't added, out of time or error
 </pre> 
 
 ### 01.3. View vote history 
-- User can view his votes from all days by GET SERVER_PATH/rest/menu/vote/history/ 
+- User can view his votes from all days by GET http://localhost:8080/restaurant/rest/menu/vote/history/ 
 
 Request:
- <pre>curl -v --user user1@gmail.com:password "SERVER_PATH/rest/menu/vote/history"</pre>
+ <pre>curl -v --user user1@gmail.com:password "http://localhost:8080/restaurant/rest/menu/vote/history"</pre>
  
 Response example:
 <pre>
@@ -85,11 +86,11 @@ Response example:
 </pre>
 
 ### 01.4. View restaurant menu by date 
-- User can view his vote's menu for restaurant by date GET SERVER_PATH/rest/menu/restaurants/{restaurant_id}/{date}
+- User can view his vote's menu for restaurant by date GET http://localhost:8080/restaurant/rest/menu/restaurants/{restaurant_id}/{date}
 - It can be used with vote history to get menu for a specific day. 
 
 Request:
- <pre>curl -v --user user1@gmail.com:password "SERVER_PATH/rest/menu/restaurants/100005/2019-08-26"</pre>
+ <pre>curl -v --user user1@gmail.com:password "http://localhost:8080/restaurant/rest/menu/restaurants/100005/2019-08-26"</pre>
 
 Response example:
 <pre>
@@ -114,10 +115,10 @@ Use for instance: curl --user admin@gmail.com:admin
 ### 02.1. View all restaurants with today menu.
 - Admin can view all today's menu, empty menu (what not included for regular user) or with dishes.
 - Empty restaurant menu need in case to add new dish there using restaurant id. 
-<br/>GET SERVER_PATH/rest/restaurants/
+<br/>GET http://localhost:8080/restaurant/rest/restaurants/
 
 Request:
- <pre>curl -v --user admin@gmail.com:admin "SERVER_PATH/rest/restaurants/"</pre>
+ <pre>curl -v --user admin@gmail.com:admin "http://localhost:8080/restaurant/rest/restaurants/"</pre>
  
 Response example for 3 restaurants:
  <pre> 
@@ -142,12 +143,12 @@ Response example for 3 restaurants:
 
 ### 02.2. Add restaurant
 - Admin can add new restaurant by 
-<br/>POST SERVER_PATH/rest/restaurants/
+<br/>POST http://localhost:8080/restaurant/rest/restaurants/
 
 Request: 
 <pre>
 curl -v --user admin@gmail.com:admin -X POST -d '{"name":"New Restaurant"}' 
--H 'Content-Type:application/json;charset=UTF-8' SERVER_PATH/rest/restaurants/
+-H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restaurant/rest/restaurants/
 </pre>
 
 Response example:
@@ -158,12 +159,12 @@ Response example:
 
 ### 02.3. Edit restaurant
 - Admin can update restaurant by by it's id
-<br/>PUT SERVER_PATH/rest/restaurants/{id}
+<br/>PUT http://localhost:8080/restaurant/rest/restaurants/{id}
 
 Request: 
 <pre>
 curl -v --user admin@gmail.com:admin -X PUT -d '{"id":100006, "name":"Updated Restaurant"}' 
--H 'Content-Type:application/json;charset=UTF-8' SERVER_PATH/rest/restaurants/100006
+-H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restaurant/rest/restaurants/100006
 </pre>
 
 Response example:
@@ -174,22 +175,22 @@ Response example:
 
 ### 02.4. Remove restaurant
 - Admin can remove restaurant by it's id 
-<br/>DELETE SERVER_PATH/rest/restaurants/{id}
+<br/>DELETE http://localhost:8080/restaurant/rest/restaurants/{id}
 
 Request: 
 <pre>
-curl -v --user admin@gmail.com:admin -X DELETE SERVER_PATH/rest/restaurants/100006
+curl -v --user admin@gmail.com:admin -X DELETE http://localhost:8080/restaurant/rest/restaurants/100006
 </pre>
 
 
 ### 02.5. Add today menu dish for restaurant 
 - Admin can add new dishes by restaurant_id 
-<br/>POST SERVER_PATH/rest/restaurants/{restaurant_id}/dishes
+<br/>POST http://localhost:8080/restaurant/rest/restaurants/{restaurant_id}/dishes
 
 Request: 
 <pre>
 curl -v --user admin@gmail.com:admin -X POST -d '{"name":"New Dish", "price":4050}' 
--H 'Content-Type:application/json;charset=UTF-8' SERVER_PATH/rest/restaurants/100006/dishes
+-H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restaurant/rest/restaurants/100006/dishes
 </pre>
 
 Response example:
@@ -207,12 +208,12 @@ Response example:
 - Admin can edit dish by dish_id
 - Only today dish can be edited 
 
-<br/>PUT SERVER_PATH/rest/restaurants/dishes/{dish_id}
+<br/>PUT http://localhost:8080/restaurant/rest/restaurants/dishes/{dish_id}
 
 Request: 
 <pre>
 curl -v --user admin@gmail.com:admin -X PUT -d '{"id":100010, "name":"Updated Dish", "price":1010}' 
--H 'Content-Type:application/json;charset=UTF-8' SERVER_PATH/rest/restaurants/dishes/100010
+-H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restaurant/rest/restaurants/dishes/100010
 </pre>
 
 <pre>
@@ -228,20 +229,20 @@ curl -v --user admin@gmail.com:admin -X PUT -d '{"id":100010, "name":"Updated Di
 - Admin can remove today dishes by its id
 - Only today  dish can be removed.
 
-<br/>DELETE SERVER_PATH/rest/restaurants/dishes/{dish_id}
+<br/>DELETE http://localhost:8080/restaurant/rest/restaurants/dishes/{dish_id}
 
 Request: 
 <pre>
-curl -v --user admin@gmail.com:admin -X DELETE SERVER_PATH/rest/restaurants/dishes/100010
+curl -v --user admin@gmail.com:admin -X DELETE http://localhost:8080/restaurant/rest/restaurants/dishes/100010
 </pre>
 
 
 ### 02.8. View today votes for all restaurants
 - Admin can view today votes for all restaurant by 
-<br/>GET SERVER_PATH/rest/restaurants/votes/
+<br/>GET http://localhost:8080/restaurant/rest/restaurants/votes/
 
 Request:
-<pre>curl -v --user admin@gmail.com:admin SERVER_PATH/rest/restaurants/votes/
+<pre>curl -v --user admin@gmail.com:admin http://localhost:8080/restaurant/rest/restaurants/votes/
 </pre>
  
 Response example:
@@ -255,10 +256,10 @@ Response example:
 
 ### 02.9. View votes by date 
 - Admin can view votes history for restaurants by date 
-<br/>GET SERVER_PATH/rest/restaurants/votes/{date}/
+<br/>GET http://localhost:8080/restaurant/rest/restaurants/votes/{date}/
 
 Request:
-<pre>curl -v --user admin@gmail.com:admin SERVER_PATH/rest/restaurants/votes/2019-08-27
+<pre>curl -v --user admin@gmail.com:admin http://localhost:8080/restaurant/rest/restaurants/votes/2019-08-27
 </pre>
 
 Response example:
@@ -275,10 +276,10 @@ Response example:
 
 ### 02.10. Vote History for restaurant
 - Admin can view vote history for restaurant by 
-<br/>GET SERVER_PATH/rest/restaurants/{id}/votes/
+<br/>GET http://localhost:8080/restaurant/rest/restaurants/{id}/votes/
 
 Request:
-<pre>curl -v --user admin@gmail.com:admin SERVER_PATH/rest/restaurants/100005/votes
+<pre>curl -v --user admin@gmail.com:admin http://localhost:8080/restaurant/rest/restaurants/100005/votes
 </pre>
 
 Response example:
@@ -304,12 +305,12 @@ Super Admin directly into database.
 
 ### 03.1. Regular user can register.
 - User can register
-<br/>POST SERVER_PATH/rest/profile/register
+<br/>POST http://localhost:8080/restaurant/rest/profile/register
 
 Request: 
 <pre>
 curl -v -X POST -d '{"name":"UserName","email":"useremail@gmail","password":"newPassword","registered":"2019-09-12T15:57:28.5393328","roles":["ROLE_USER"]}' 
--H 'Content-Type:application/json;charset=UTF-8' SERVER_PATH/rest/restaurants/100006/dishes
+-H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restaurant/rest/restaurants/100006/dishes
 </pre>
 
 Response example:
@@ -328,10 +329,10 @@ Response example:
 ### 03.2. User can view his profile 
 - User has access only to his profile
 
-<br/>GET SERVER_PATH/rest/profile
+<br/>GET http://localhost:8080/restaurant/rest/profile
 
 Request:
-<pre>curl -v --user user1@gmail.com:password SERVER_PATH/rest/profile
+<pre>curl -v --user user1@gmail.com:password http://localhost:8080/restaurant/rest/profile
 </pre>
 Response example:
  <pre> 
@@ -348,12 +349,11 @@ Response example:
 ### 03.3. User can update his profile 
 - User has access to update only to his profile
 
-<br/>PUT SERVER_PATH/rest/profile
+<br/>PUT http://localhost:8080/restaurant/rest/profile
 
 Request: 
 <pre>
-curl -v -X PUT -d '{"name":"UserName", "password":"newPassword"}' 
--H 'Content-Type:application/json;charset=UTF-8' SERVER_PATH/rest/profile
+curl -v --user user1@gmail.com:password -X PUT -d '{"name":"UserName", "password":"newPassword"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restaurant/rest/profile
 </pre>
 
 <br/><br/><br/>
@@ -382,7 +382,7 @@ without unnecessary information of restaurant and date added.
 - It can be removed if all history statistics will be based on History and Vote objects (fast).
 
 ### 04.2. UserService
-- User service needs for authentication.
+- User service is needed for authentication.
 
 
   
