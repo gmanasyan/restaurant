@@ -362,6 +362,12 @@ curl -v --user user1@gmail.com:password -X PUT -d '{"name":"UserName", "password
 
 ## 04. Project Notes
 
+##### Current Time 
+<pre>
+For debug and passing all test please change current time for "2019-8-16, 11:00" 
+by uncomment "for debug" section in util.java or change date and time at the your computer.
+</pre>
+
 ### 04.1. Transfer Object
 
 ##### UserToIn
@@ -383,6 +389,9 @@ without unnecessary information of restaurant and date added.
 
 ### 04.2. UserService
 - User service is needed for authentication.
+
+
+
 
 
   
