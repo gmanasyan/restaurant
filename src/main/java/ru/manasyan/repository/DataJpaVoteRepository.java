@@ -1,6 +1,7 @@
 package ru.manasyan.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.manasyan.model.Vote;
@@ -19,9 +20,10 @@ public class DataJpaVoteRepository {
     private DataJpaVoteHistoryRepository historyRepository;
 
     @Transactional
-    public boolean update(int user_id, int restaurant_id, LocalDate date) {
+    public boolean update(int user_id, int restaurant_id, LocalDate date) throws DataIntegrityViolationException {
         Vote vote = get(user_id, date);
         if (vote != null) {
+            historyRepository.remove(vote.getRestaurant_id(), date);
             vote.setRestaurant_id(restaurant_id);
         }
         else {

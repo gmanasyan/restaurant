@@ -34,6 +34,9 @@ public class History extends AbstractBaseEntity {
         this.votes += votes;
     }
 
+    public void removeVotes(int votes) {
+        this.votes -= votes;
+    }
 
     public Integer getRestaurant_id() {
         return restaurant_id;

@@ -1,6 +1,7 @@
 package ru.manasyan.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 import ru.manasyan.model.History;
 
@@ -32,6 +33,17 @@ public class DataJpaVoteHistoryRepository {
             history.addVotes(1);
         }
 
+        crudVoteHistoryRepository.save(history);
+    }
+
+    public void remove(Integer restaurant_id, LocalDate date) throws DataIntegrityViolationException {
+        History history = crudVoteHistoryRepository.get(date, restaurant_id);
+
+        if ((history != null) && (history.getVotes() > 0)) {
+            history.removeVotes(1);
+        } else {
+            throw new DataIntegrityViolationException("Vote history database error.");
+        }
         crudVoteHistoryRepository.save(history);
     }
 
