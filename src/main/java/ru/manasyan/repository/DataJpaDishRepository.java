@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-@Transactional(readOnly = true)
 public class DataJpaDishRepository {
 
     @Autowired

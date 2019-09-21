@@ -29,7 +29,7 @@ public class DishRestControllerTest extends AbstractControllerTest {
     @Test
     void vote() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post(REST_URL_MENU + "/vote/100006")
-                .with(userHttpBasic(USER1)))
+                .with(userHttpBasic(USER3)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().string("true"));
@@ -41,7 +41,7 @@ public class DishRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(USER3)))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(content().string("[{\"id\":100019,\"user_id\":100003,\"restaurant_id\":100005,\"date\":\"2019-08-26\"},{\"id\":100020,\"user_id\":100003,\"restaurant_id\":100005,\"date\":\"2019-08-27\"}]"));
+                .andExpect(content().string("[{\"id\":100024,\"user_id\":100003,\"restaurant_id\":100005,\"date\":\"2019-08-26\"},{\"id\":100025,\"user_id\":100003,\"restaurant_id\":100005,\"date\":\"2019-08-27\"}]"));
     }
 
     @Test

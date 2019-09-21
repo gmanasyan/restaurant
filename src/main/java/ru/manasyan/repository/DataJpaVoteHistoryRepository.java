@@ -24,7 +24,7 @@ public class DataJpaVoteHistoryRepository {
         return histories;
     }
 
-    public void add(Integer restaurant_id, LocalDate date) {
+    public void increase(Integer restaurant_id, LocalDate date) {
         History history = crudVoteHistoryRepository.get(date, restaurant_id);
 
         if (history == null) {
@@ -36,13 +36,13 @@ public class DataJpaVoteHistoryRepository {
         crudVoteHistoryRepository.save(history);
     }
 
-    public void remove(Integer restaurant_id, LocalDate date) throws DataIntegrityViolationException {
+    public void decrease(Integer restaurant_id, LocalDate date) throws Exception {
         History history = crudVoteHistoryRepository.get(date, restaurant_id);
 
         if ((history != null) && (history.getVotes() > 0)) {
             history.removeVotes(1);
         } else {
-            throw new DataIntegrityViolationException("Vote history database error.");
+            throw new Exception("Vote history database error.");
         }
         crudVoteHistoryRepository.save(history);
     }

@@ -30,11 +30,11 @@ public class RestaurantRestController extends AbstractRestController {
         List<Restaurant> restaurants = restaurantRepository.getAll();
         List<Dish> dishes = dishRepository.getAll(currentDateTime().toLocalDate());
 
-        Map<Restaurant, List<Dish>> map = dishes.stream()
-                .collect(Collectors.groupingBy(d -> d.getRestaurant()));
+        Map<Integer, List<Dish>> map = dishes.stream()
+                .collect(Collectors.groupingBy(d -> d.getRestaurant().getId()));
 
         Map<Restaurant, List<DishTo>> collect = map.entrySet().stream()
-                .collect(Collectors.toMap(e -> e.getKey(), e -> toDishTo(e.getValue())));
+                .collect(Collectors.toMap(e -> restaurantRepository.get(e.getKey()), e -> toDishTo(e.getValue())));
 
         restaurants.forEach(r -> collect.putIfAbsent(r, new ArrayList<>()));
 

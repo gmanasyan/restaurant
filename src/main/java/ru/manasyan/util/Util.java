@@ -15,12 +15,7 @@ public class Util {
     public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";
 
     public static LocalDateTime currentDateTime() {
-
-        // for production
         return LocalDateTime.now();
-
-        // for debug
-        //return LocalDateTime.of(2019, 8, 16, 11,00);
     }
 
     public static List<DishTo> toDishTo(List<Dish> dishes) {

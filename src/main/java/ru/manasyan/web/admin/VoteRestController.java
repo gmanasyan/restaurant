@@ -2,6 +2,7 @@ package ru.manasyan.web.admin;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,16 +17,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static ru.manasyan.util.Util.currentDateTime;
+
 @RestController
 @RequestMapping(value = "/rest/restaurants",  produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteRestController extends AbstractRestController {
 
     // Ver 1| Search by votes database for today
+    @Transactional
     @GetMapping("/votes")
     public Map<Restaurant, Long> todayVotes() {
         log.info("View today votes for all restaurants");
 
-        List<VotesStatistics> votes = voteRepository.get(LocalDate.of(2019,8,27));
+        List<VotesStatistics> votes = voteRepository.get(currentDateTime().toLocalDate());
 
         Map<Restaurant, Long> votesRestaurant = votes.stream()
                 .collect(Collectors.toMap(v -> restaurantRepository.get(v.getRestaurant()), v -> v.getVotes() ));
@@ -48,6 +52,7 @@ public class VoteRestController extends AbstractRestController {
         return history;
     }
 
+    @Transactional
     public List<HistoryTo> addRestaurant(List<History> histories) {
        return histories.stream()
                .map(h -> new HistoryTo(h.getId(), restaurantRepository.get(h.getRestaurant_id()), h.getDate(), h.getVotes()))

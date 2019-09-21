@@ -29,7 +29,7 @@ import static ru.manasyan.util.ValidationUtil.logAndGetErrorInfo;
 @Order(Ordered.HIGHEST_PRECEDENCE + 5)
 public class ExceptionInfoHandler {
 
-    private static Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
+    private Logger log = LoggerFactory.getLogger(getClass());
 
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)  // 422
     @ExceptionHandler({BindException.class, MethodArgumentNotValidException.class})

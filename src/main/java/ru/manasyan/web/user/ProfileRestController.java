@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.manasyan.AuthorizedUser;
+import ru.manasyan.model.Role;
 import ru.manasyan.model.User;
 import ru.manasyan.service.UserService;
 import ru.manasyan.to.UserToIn;
@@ -17,7 +18,11 @@ import ru.manasyan.web.ExceptionInfoHandler;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.EnumSet;
 
+import static ru.manasyan.model.Role.ROLE_USER;
 import static ru.manasyan.util.Util.updateFromTo;
 import static ru.manasyan.util.ValidationUtil.assureIdConsistent;
 import static ru.manasyan.util.ValidationUtil.checkNew;
@@ -28,7 +33,7 @@ public class ProfileRestController {
 
     static final String REST_URL = "/rest/profile";
 
-    private static Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
+    private Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private UserService userService;
@@ -38,6 +43,9 @@ public class ProfileRestController {
     public ResponseEntity<User> register(@Valid @RequestBody User user) {
         log.info("Register new user {} ", user.toString());
         checkNew(user);
+        user.setRoles(EnumSet.of(Role.ROLE_USER));
+        user.setRegistered(LocalDateTime.now());
+
         User created = userService.save(user);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")

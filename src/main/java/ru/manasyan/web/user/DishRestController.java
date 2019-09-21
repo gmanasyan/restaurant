@@ -10,6 +10,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.Environment;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.manasyan.model.Dish;
 import ru.manasyan.model.Restaurant;
@@ -30,6 +31,7 @@ import static ru.manasyan.util.Util.*;
 
 @RestController
 @RequestMapping(value = DishRestController.REST_URL,  produces = MediaType.APPLICATION_JSON_VALUE)
+@PropertySource("classpath:app.properties")
 public class DishRestController {
 
     static final String REST_URL = "/rest/menu";
@@ -37,7 +39,7 @@ public class DishRestController {
     @Value("${vote.endTime}")
     private String voteEndTime;
 
-    private static Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
+    private Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private DataJpaDishRepository dishRepository;
@@ -55,6 +57,7 @@ public class DishRestController {
     }
 
     @GetMapping("/{date}")
+    @Transactional
     public Map<Restaurant, List<DishTo>> getAllByDate(@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("date") LocalDate date) throws Exception {
         int userId = SecurityUtil.authUserId();
         log.info("View menu by date {} for all restaurants by user {}", date, userId);
@@ -71,7 +74,10 @@ public class DishRestController {
     public boolean vote(@PathVariable("id") int restaurant_id) throws Exception {
         int userId = SecurityUtil.authUserId();
         log.info("Vote for restaurant {} by user", restaurant_id, userId);
-        return canVote(voteEndTime) ? voteRepository.update(userId, restaurant_id, LocalDate.now()) : false;
+        if (voteRepository.get(userId, LocalDate.now()) != null && !canVote(voteEndTime)) {
+            return false;
+        }
+        return voteRepository.update(userId, restaurant_id, LocalDate.now());
     }
 
     @GetMapping("/vote/history")

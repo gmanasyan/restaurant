@@ -8,7 +8,6 @@ import ru.manasyan.model.Restaurant;
 import java.util.List;
 
 @Repository
-@Transactional(readOnly = true)
 public class DataJpaRestaurantRepository {
 
     @Autowired

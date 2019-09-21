@@ -37,7 +37,7 @@ Use for instance: curl --user user1@gmail.com:password
 <br/>GET http://localhost:8080/restaurant/rest/menu/
 
 Request:
- <pre>curl -v --user user1@gmail.com:password "http://localhost:8080/restaurant/rest/menu/"</pre>
+ <pre>curl -s --user user1@gmail.com:password "http://localhost:8080/restaurant/rest/menu/"</pre>
 
 Response example for 2 restaurants each have menu with 3 dishes:
  <pre>
@@ -62,7 +62,7 @@ Response example for 2 restaurants each have menu with 3 dishes:
 - User can vote for restaurant by POST http://localhost:8080/restaurant/rest/menu/vote/{restaurant_id} 
 
 Request:
- <pre>curl -X POST -v --user user1@gmail.com:password "http://localhost:8080/restaurant/rest/menu/vote/34"</pre>
+ <pre>curl -X POST -s --user user3@gmail.com:password "http://localhost:8080/restaurant/rest/menu/vote/100005"</pre>
 
 Response example:
 
@@ -75,7 +75,7 @@ false - vote did't added, out of time or error
 - User can view his votes from all days by GET http://localhost:8080/restaurant/rest/menu/vote/history/ 
 
 Request:
- <pre>curl -v --user user1@gmail.com:password "http://localhost:8080/restaurant/rest/menu/vote/history"</pre>
+ <pre>curl -s --user user1@gmail.com:password "http://localhost:8080/restaurant/rest/menu/vote/history"</pre>
  
 Response example:
 <pre>
@@ -90,7 +90,7 @@ Response example:
 - It can be used with vote history to get menu for a specific day. 
 
 Request:
- <pre>curl -v --user user1@gmail.com:password "http://localhost:8080/restaurant/rest/menu/restaurants/100005/2019-08-26"</pre>
+ <pre>curl -s --user user1@gmail.com:password "http://localhost:8080/restaurant/rest/menu/restaurants/100005/2019-08-26"</pre>
 
 Response example:
 <pre>
@@ -118,7 +118,7 @@ Use for instance: curl --user admin@gmail.com:admin
 <br/>GET http://localhost:8080/restaurant/rest/restaurants/
 
 Request:
- <pre>curl -v --user admin@gmail.com:admin "http://localhost:8080/restaurant/rest/restaurants/"</pre>
+ <pre>curl -s --user admin@gmail.com:admin "http://localhost:8080/restaurant/rest/restaurants/"</pre>
  
 Response example for 3 restaurants:
  <pre> 
@@ -147,8 +147,7 @@ Response example for 3 restaurants:
 
 Request: 
 <pre>
-curl -v --user admin@gmail.com:admin -X POST -d '{"name":"New Restaurant"}' 
--H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restaurant/rest/restaurants/
+curl -s --user admin@gmail.com:admin -X POST -d '{"name":"New Restaurant"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restaurant/rest/restaurants/
 </pre>
 
 Response example:
@@ -163,13 +162,12 @@ Response example:
 
 Request: 
 <pre>
-curl -v --user admin@gmail.com:admin -X PUT -d '{"id":100006, "name":"Updated Restaurant"}' 
--H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restaurant/rest/restaurants/100006
+curl -s --user admin@gmail.com:admin -X PUT -d '{"id":100006, "name":"Updated Restaurant"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restaurant/rest/restaurants/100006
 </pre>
 
 Response example:
 <pre>
-{"id":100006,"name":"New Restaurant","dateTime":"2019-08-16T13:00:00"}
+{"id":100006,"name":"Updated Restaurant","dateTime":"2019-08-16T13:00:00"}
 </pre>
 
 
@@ -179,7 +177,7 @@ Response example:
 
 Request: 
 <pre>
-curl -v --user admin@gmail.com:admin -X DELETE http://localhost:8080/restaurant/rest/restaurants/100006
+curl -s --user admin@gmail.com:admin -X DELETE http://localhost:8080/restaurant/rest/restaurants/100006
 </pre>
 
 
@@ -189,8 +187,7 @@ curl -v --user admin@gmail.com:admin -X DELETE http://localhost:8080/restaurant/
 
 Request: 
 <pre>
-curl -v --user admin@gmail.com:admin -X POST -d '{"name":"New Dish", "price":4050}' 
--H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restaurant/rest/restaurants/100006/dishes
+curl -s --user admin@gmail.com:admin -X POST -d '{"name":"New Dish", "price":4050}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restaurant/rest/restaurants/100006/dishes
 </pre>
 
 Response example:
@@ -212,13 +209,12 @@ Response example:
 
 Request: 
 <pre>
-curl -v --user admin@gmail.com:admin -X PUT -d '{"id":100010, "name":"Updated Dish", "price":1010}' 
--H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restaurant/rest/restaurants/dishes/100010
+curl -s --user admin@gmail.com:admin -X PUT -d '{"id":100022, "name":"Updated Dish", "price":1010}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restaurant/rest/restaurants/dishes/100022
 </pre>
 
 <pre>
 {
-"id":100010,
+"id":100022,
 "name":"Updated Dish",
 "price":1010,
 "restaurant":{"id":100006,"name":"White Rabbit","dateTime":"2019-08-16T13:00:00"}
@@ -233,7 +229,7 @@ curl -v --user admin@gmail.com:admin -X PUT -d '{"id":100010, "name":"Updated Di
 
 Request: 
 <pre>
-curl -v --user admin@gmail.com:admin -X DELETE http://localhost:8080/restaurant/rest/restaurants/dishes/100010
+curl -s --user admin@gmail.com:admin -X DELETE http://localhost:8080/restaurant/rest/restaurants/dishes/100022
 </pre>
 
 
@@ -242,7 +238,7 @@ curl -v --user admin@gmail.com:admin -X DELETE http://localhost:8080/restaurant/
 <br/>GET http://localhost:8080/restaurant/rest/restaurants/votes/
 
 Request:
-<pre>curl -v --user admin@gmail.com:admin http://localhost:8080/restaurant/rest/restaurants/votes/
+<pre>curl -s --user admin@gmail.com:admin http://localhost:8080/restaurant/rest/restaurants/votes/
 </pre>
  
 Response example:
@@ -259,7 +255,7 @@ Response example:
 <br/>GET http://localhost:8080/restaurant/rest/restaurants/votes/{date}/
 
 Request:
-<pre>curl -v --user admin@gmail.com:admin http://localhost:8080/restaurant/rest/restaurants/votes/2019-08-27
+<pre>curl -s --user admin@gmail.com:admin http://localhost:8080/restaurant/rest/restaurants/votes/2019-08-27
 </pre>
 
 Response example:
@@ -279,7 +275,7 @@ Response example:
 <br/>GET http://localhost:8080/restaurant/rest/restaurants/{id}/votes/
 
 Request:
-<pre>curl -v --user admin@gmail.com:admin http://localhost:8080/restaurant/rest/restaurants/100005/votes
+<pre>curl -s --user admin@gmail.com:admin http://localhost:8080/restaurant/rest/restaurants/100005/votes
 </pre>
 
 Response example:
@@ -309,8 +305,7 @@ Super Admin directly into database.
 
 Request: 
 <pre>
-curl -v -X POST -d '{"name":"UserName","email":"useremail@gmail","password":"newPassword","registered":"2019-09-12T15:57:28.5393328","roles":["ROLE_USER"]}' 
--H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restaurant/rest/restaurants/100006/dishes
+curl -s -X POST -d '{"name":"UserName","email":"useremail@gmail","password":"newPassword"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restaurant/rest/profile/register
 </pre>
 
 Response example:
@@ -332,7 +327,7 @@ Response example:
 <br/>GET http://localhost:8080/restaurant/rest/profile
 
 Request:
-<pre>curl -v --user user1@gmail.com:password http://localhost:8080/restaurant/rest/profile
+<pre>curl -s --user user1@gmail.com:password http://localhost:8080/restaurant/rest/profile
 </pre>
 Response example:
  <pre> 
@@ -353,7 +348,7 @@ Response example:
 
 Request: 
 <pre>
-curl -v --user user1@gmail.com:password -X PUT -d '{"name":"UserName", "password":"newPassword"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restaurant/rest/profile
+curl -s --user user1@gmail.com:password -X PUT -d '{"name":"UserName", "password":"newPassword"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restaurant/rest/profile
 </pre>
 
 <br/><br/><br/>
@@ -361,12 +356,6 @@ curl -v --user user1@gmail.com:password -X PUT -d '{"name":"UserName", "password
 <br/><br/><br/>
 
 ## 04. Project Notes
-
-##### Current Time 
-<pre>
-For debug and passing all test please change current time for "2019-8-16, 11:00" 
-by uncomment "for debug" section in util.java or change date and time at the your computer.
-</pre>
 
 ### 04.1. Transfer Object
 

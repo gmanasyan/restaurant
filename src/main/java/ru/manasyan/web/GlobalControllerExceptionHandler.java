@@ -17,7 +17,7 @@ import static ru.manasyan.util.exception.ErrorType.*;
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {
 
-    private static Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
+    private Logger log = LoggerFactory.getLogger(getClass());
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // 500
     @ExceptionHandler(Exception.class)

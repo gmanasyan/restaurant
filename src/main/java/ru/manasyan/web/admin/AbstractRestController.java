@@ -13,7 +13,7 @@ public class AbstractRestController {
 
     static final String REST_URL = "/rest/restaurants";
 
-    protected static Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
+    protected Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     protected DataJpaRestaurantRepository restaurantRepository;
