@@ -1,29 +1,29 @@
-package ru.manasyan.repository;
+package ru.manasyan.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.manasyan.model.Vote;
+import ru.manasyan.repository.CrudVoteRepository;
 import ru.manasyan.to.VotesStatistics;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Repository
-public class DataJpaVoteRepository {
+@Service("voteService")
+public class VoteService {
 
     @Autowired
     private CrudVoteRepository crudVoteRepository;
 
     @Autowired
-    private DataJpaVoteHistoryRepository historyRepository;
+    private VoteHistoryService historyService;
 
     @Transactional
     public boolean update(int user_id, int restaurant_id, LocalDate date) throws Exception {
         Vote vote = get(user_id, date);
         if (vote != null) {
-            historyRepository.decrease(vote.getRestaurant_id(), date);
+            historyService.decrease(vote.getRestaurant_id(), date);
             vote.setRestaurant_id(restaurant_id);
         }
         else {
@@ -33,7 +33,7 @@ public class DataJpaVoteRepository {
 
         if (savedVote != null) {
             // Update Vote History
-            historyRepository.increase(restaurant_id, date);
+            historyService.increase(restaurant_id, date);
         }
 
         return (savedVote != null) ? true : false;
@@ -53,5 +53,4 @@ public class DataJpaVoteRepository {
         List<Vote> votes = crudVoteRepository.getByUserId(user_id);
         return votes;
     }
-
 }

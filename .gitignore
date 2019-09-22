@@ -1,0 +1,6 @@
+.idea
+/.idea/
+.idea/**/dataSources/
+/target/
+/log/
+/log/restaurant.log

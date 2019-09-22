@@ -4,10 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.core.env.Environment;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,11 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.manasyan.model.Dish;
 import ru.manasyan.model.Restaurant;
 import ru.manasyan.model.Vote;
-import ru.manasyan.repository.DataJpaDishRepository;
-import ru.manasyan.repository.DataJpaRestaurantRepository;
-import ru.manasyan.repository.DataJpaVoteRepository;
+import ru.manasyan.repository.CrudDishRepository;
+import ru.manasyan.repository.CrudRestaurantRepository;
+import ru.manasyan.service.VoteService;
 import ru.manasyan.to.DishTo;
-import ru.manasyan.web.ExceptionInfoHandler;
 import ru.manasyan.web.SecurityUtil;
 
 import java.time.LocalDate;
@@ -42,13 +38,13 @@ public class DishRestController {
     private Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private DataJpaDishRepository dishRepository;
+    private CrudDishRepository dishRepository;
 
     @Autowired
-    private DataJpaVoteRepository voteRepository;
+    private VoteService voteService;
 
     @Autowired
-    private DataJpaRestaurantRepository restaurantRepository;
+    private CrudRestaurantRepository restaurantRepository;
 
     @GetMapping
     public Map<Restaurant, List<DishTo>> getAll() throws Exception {
@@ -57,7 +53,7 @@ public class DishRestController {
     }
 
     @GetMapping("/{date}")
-    @Transactional
+    @Transactional(readOnly = true)
     public Map<Restaurant, List<DishTo>> getAllByDate(@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("date") LocalDate date) throws Exception {
         int userId = SecurityUtil.authUserId();
         log.info("View menu by date {} for all restaurants by user {}", date, userId);
@@ -65,8 +61,12 @@ public class DishRestController {
         Map<Integer, List<Dish>> map = allDishes.stream()
                 .collect(Collectors.groupingBy(d -> d.getRestaurant().getId()));
 
+        List<Restaurant> restaurants = restaurantRepository.getAll();
+        Map<Integer, Restaurant> restaurantMap = restaurants.stream()
+                .collect(Collectors.toMap(r -> r.getId(), r -> r));
+
         Map<Restaurant, List<DishTo>> collect = map.entrySet().stream()
-                .collect(Collectors.toMap(e -> restaurantRepository.get(e.getKey()), e -> toDishTo(e.getValue())));
+                .collect(Collectors.toMap(e -> restaurantMap.get(e.getKey()), e -> toDishTo(e.getValue())));
         return collect;
     }
 
@@ -74,17 +74,17 @@ public class DishRestController {
     public boolean vote(@PathVariable("id") int restaurant_id) throws Exception {
         int userId = SecurityUtil.authUserId();
         log.info("Vote for restaurant {} by user", restaurant_id, userId);
-        if (voteRepository.get(userId, LocalDate.now()) != null && !canVote(voteEndTime)) {
+        if (voteService.get(userId, LocalDate.now()) != null && !canVote(voteEndTime)) {
             return false;
         }
-        return voteRepository.update(userId, restaurant_id, LocalDate.now());
+        return voteService.update(userId, restaurant_id, LocalDate.now());
     }
 
     @GetMapping("/vote/history")
     public List<Vote> history() throws Exception {
         int userId = SecurityUtil.authUserId();
         log.info("View vote history for user {}", userId);
-        List<Vote> votes = voteRepository.history(userId);
+        List<Vote> votes = voteService.history(userId);
         return votes;
     }
 

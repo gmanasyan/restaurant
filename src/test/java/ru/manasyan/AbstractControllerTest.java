@@ -11,6 +11,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import ru.manasyan.repository.*;
+import ru.manasyan.service.VoteHistoryService;
+import ru.manasyan.service.VoteService;
 import ru.manasyan.web.ExceptionInfoHandler;
 
 import javax.annotation.PostConstruct;
@@ -25,7 +27,7 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 
-public class AbstractControllerTest {
+public abstract class AbstractControllerTest {
 
     protected static final String REST_URL_MENU = "/rest/menu/";
     protected static final String REST_URL_PROFILE = "/rest/profile/";
@@ -45,19 +47,19 @@ public class AbstractControllerTest {
     protected WebApplicationContext webApplicationContext;
 
     @Autowired
-    protected DataJpaRestaurantRepository restaurantRepository;
+    protected CrudDishRepository dishRepository;
 
     @Autowired
-    protected DataJpaDishRepository dishRepository;
+    protected CrudRestaurantRepository restaurantRepository;
 
     @Autowired
-    protected DataJpaVoteRepository voteRepository;
+    protected VoteService voteService;
 
     @Autowired
-    protected DataJpaVoteHistoryRepository historyRepository;
+    protected VoteHistoryService historyService;
 
     @Autowired
-    protected DataJpaUserRepository userRepository;
+    protected CrudUserRepository userRepository;
 
     @PostConstruct
     private void postConstruct() {

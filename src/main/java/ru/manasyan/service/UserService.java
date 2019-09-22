@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import ru.manasyan.AuthorizedUser;
 import ru.manasyan.model.User;
-import ru.manasyan.repository.DataJpaUserRepository;
+import ru.manasyan.repository.CrudUserRepository;
+import ru.manasyan.util.exception.IllegalRequestDataException;
 
 @Service("userService")
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -20,7 +21,7 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private DataJpaUserRepository repository;
+    private CrudUserRepository repository;
 
     @Autowired
     public UserService(PasswordEncoder passwordEncoder) {
@@ -32,11 +33,11 @@ public class UserService implements UserDetailsService {
     }
 
     public User get(int id) {
-        return repository.get(id);
+        return repository.findById(id).orElseThrow(() -> new IllegalRequestDataException("Database error. User not found."));
     }
 
-    public boolean delete(int id) {
-        return repository.delete(id);
+    public void delete(int id) {
+        repository.delete(repository.get(id));
     }
 
     @Override

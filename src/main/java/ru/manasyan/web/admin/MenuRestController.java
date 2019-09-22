@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.manasyan.model.Dish;
+import ru.manasyan.util.exception.IllegalRequestDataException;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -18,11 +19,11 @@ import static ru.manasyan.util.ValidationUtil.checkNew;
 public class MenuRestController extends AbstractRestController {
 
     @PostMapping(value ="/{id}/dishes")
-    public Dish createDish(@Valid @RequestBody Dish dish, @PathVariable("id") int restaurant_id) {
+    public Dish createDish(@Valid @RequestBody Dish dish, @PathVariable("id") int restaurant_id) throws Exception {
         log.info("Create dish for restaurant {} with data {} ",restaurant_id, dish.toString());
         checkNew(dish);
         dish.setDate(LocalDate.now());
-        dish.setRestaurant(restaurantRepository.get(restaurant_id));
+        dish.setRestaurant(restaurantRepository.findById(restaurant_id).orElseThrow(() -> new IllegalRequestDataException(dbRestaurant)));
         Dish savedDish = dishRepository.save(dish);
         return savedDish;
     }
@@ -33,7 +34,7 @@ public class MenuRestController extends AbstractRestController {
         log.info("Update dish id {} with data {} ",id, dishUpdate.toString());
         assureIdConsistent(dishUpdate, id);
         // Update only today dishes
-        Dish dish = dishRepository.get(id);
+        Dish dish = dishRepository.getWithRestaurant(id);
         if (dish.getDate().equals(LocalDate.now())) {
             dishUpdate.setRestaurant(dish.getRestaurant());
             dishUpdate.setDate(dish.getDate());
@@ -45,7 +46,7 @@ public class MenuRestController extends AbstractRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteDish(@PathVariable("id") int id) {
         log.info("Delete dish id {}",id);
-        dishRepository.delete(id);
+        dishRepository.delete(dishRepository.getWithRestaurant(id));
     }
 
 }

@@ -32,7 +32,7 @@ CREATE TABLE restaurants
 (
     id          INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
     name        TEXT      NOT NULL,
-    date_time   TIMESTAMP NOT NULL
+    registered   TIMESTAMP NOT NULL
 );
 
 CREATE UNIQUE INDEX restaurants_unique_name_idx

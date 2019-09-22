@@ -89,7 +89,7 @@ public class DishRestControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        assertMatch(dishRepository.get(100007), null);
+        assertMatch(dishRepository.getWithRestaurant(100007), null);
     }
 
     @Test

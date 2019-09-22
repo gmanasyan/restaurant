@@ -1,15 +1,15 @@
-package ru.manasyan.repository;
+package ru.manasyan.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import ru.manasyan.model.History;
+import ru.manasyan.repository.CrudVoteHistoryRepository;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Repository
-public class DataJpaVoteHistoryRepository {
+@Service("voteHistoryService")
+public class VoteHistoryService {
 
     @Autowired
     private CrudVoteHistoryRepository crudVoteHistoryRepository;
@@ -30,7 +30,7 @@ public class DataJpaVoteHistoryRepository {
         if (history == null) {
             history = new History(null, restaurant_id, date, 1);
         } else {
-            history.addVotes(1);
+            history.setVotes(history.getVotes() + 1);
         }
 
         crudVoteHistoryRepository.save(history);
@@ -40,11 +40,10 @@ public class DataJpaVoteHistoryRepository {
         History history = crudVoteHistoryRepository.get(date, restaurant_id);
 
         if ((history != null) && (history.getVotes() > 0)) {
-            history.removeVotes(1);
+            history.setVotes(history.getVotes() - 1);
         } else {
             throw new Exception("Vote history database error.");
         }
         crudVoteHistoryRepository.save(history);
     }
-
 }

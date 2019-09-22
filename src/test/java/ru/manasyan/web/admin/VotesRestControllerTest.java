@@ -18,7 +18,7 @@ public class VotesRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("{\"Restaurant{id=100005, dateTime=2019-08-16T13:00, name='Cafe Pushkin'}\":1,\"Restaurant{id=100006, dateTime=2019-08-16T13:00, name='White Rabbit'}\":1}"));
+                .andExpect(content().string("{\"Restaurant{id=100005, registered=2019-08-16T13:00, name='Cafe Pushkin'}\":1,\"Restaurant{id=100006, registered=2019-08-16T13:00, name='White Rabbit'}\":1}"));
     }
 
     @Test
@@ -27,7 +27,7 @@ public class VotesRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("[{\"id\":100031,\"restaurant\":{\"id\":100005,\"name\":\"Cafe Pushkin\",\"dateTime\":\"2019-08-16T13:00:00\"},\"date\":\"2019-08-27\",\"votes\":2},{\"id\":100032,\"restaurant\":{\"id\":100006,\"name\":\"White Rabbit\",\"dateTime\":\"2019-08-16T13:00:00\"},\"date\":\"2019-08-27\",\"votes\":1}]"));
+                .andExpect(content().string("[{\"id\":100031,\"restaurant\":{\"id\":100005,\"name\":\"Cafe Pushkin\",\"registered\":\"2019-08-16T13:00:00\"},\"date\":\"2019-08-27\",\"votes\":2},{\"id\":100032,\"restaurant\":{\"id\":100006,\"name\":\"White Rabbit\",\"registered\":\"2019-08-16T13:00:00\"},\"date\":\"2019-08-27\",\"votes\":1}]"));
     }
 
     @Test
@@ -36,7 +36,7 @@ public class VotesRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("[{\"id\":100030,\"restaurant_id\":100005,\"date\":\"2019-08-26\",\"votes\":1},{\"id\":100031,\"restaurant_id\":100005,\"date\":\"2019-08-27\",\"votes\":2},{\"id\":100033,\"restaurant_id\":100005,\"date\":\"2019-09-21\",\"votes\":1}]"));
+                .andExpect(content().string("[{\"id\":100030,\"restaurant_id\":100005,\"date\":\"2019-08-26\",\"votes\":1},{\"id\":100031,\"restaurant_id\":100005,\"date\":\"2019-08-27\",\"votes\":2},{\"id\":100033,\"restaurant_id\":100005,\"date\":\"2019-09-22\",\"votes\":1}]"));
     }
 
 }

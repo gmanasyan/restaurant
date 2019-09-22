@@ -19,18 +19,18 @@ public class Restaurant extends AbstractBaseEntity {
     @Size(min = 2, max = 100)
     private String name;
 
-    @Column(name = "date_time", nullable = false)
+    @Column(name = "registered", nullable = false)
     @NotNull(groups = View.Persist.class)
     @DateTimeFormat(pattern = Util.DATE_TIME_PATTERN)
-    private LocalDateTime dateTime;
+    private LocalDateTime registered;
 
     public Restaurant () {
     }
 
-    public Restaurant (Integer id, String name, LocalDateTime dateTime) {
+    public Restaurant (Integer id, String name, LocalDateTime registered) {
         super(id);
         this.name = name;
-        this.dateTime = dateTime;
+        this.registered = registered;
     }
 
     public String getName() {
@@ -42,18 +42,18 @@ public class Restaurant extends AbstractBaseEntity {
     }
 
     public LocalDateTime getDateTime() {
-        return dateTime;
+        return registered;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDateTime(LocalDateTime registered) {
+        this.registered = registered;
     }
 
     @Override
     public String toString() {
         return "Restaurant{" +
                 "id=" + id +
-                ", dateTime=" + dateTime +
+                ", registered=" + registered +
                 ", name='" + name + '\'' +
                 '}';
     }

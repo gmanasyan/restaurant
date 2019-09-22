@@ -3,28 +3,40 @@ package ru.manasyan.web.admin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.manasyan.repository.DataJpaDishRepository;
-import ru.manasyan.repository.DataJpaRestaurantRepository;
-import ru.manasyan.repository.DataJpaVoteHistoryRepository;
-import ru.manasyan.repository.DataJpaVoteRepository;
+import org.springframework.beans.factory.annotation.Value;
+import ru.manasyan.model.Restaurant;
+import ru.manasyan.repository.*;
+import ru.manasyan.service.VoteHistoryService;
+import ru.manasyan.service.VoteService;
 import ru.manasyan.web.ExceptionInfoHandler;
 
-public class AbstractRestController {
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public abstract class AbstractRestController {
 
     static final String REST_URL = "/rest/restaurants";
 
     protected Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    protected DataJpaRestaurantRepository restaurantRepository;
+    @Value("${error.dbRestaurant}")
+    protected String dbRestaurant;
 
     @Autowired
-    protected DataJpaDishRepository dishRepository;
+    protected CrudDishRepository dishRepository;
 
     @Autowired
-    protected DataJpaVoteRepository voteRepository;
+    protected CrudRestaurantRepository restaurantRepository;
 
     @Autowired
-    protected DataJpaVoteHistoryRepository historyRepository;
+    protected VoteService voteService;
 
+    @Autowired
+    protected VoteHistoryService historyService;
+
+    protected Map<Integer, Restaurant> restaurants() {
+        List<Restaurant> restaurants = restaurantRepository.getAll();
+        return  restaurants.stream().collect(Collectors.toMap(r -> r.getId(), r -> r));
+    }
 }

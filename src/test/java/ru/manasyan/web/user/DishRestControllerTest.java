@@ -23,7 +23,7 @@ public class DishRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("{\"Restaurant{id=100005, dateTime=2019-08-16T13:00, name='Cafe Pushkin'}\":[{\"id\":100007,\"name\":\"Summer squash soup with creamed feta biscuits\",\"price\":875},{\"id\":100008,\"name\":\"Girolle, lemon & parsley risotto\",\"price\":1500},{\"id\":100009,\"name\":\"Mediterranean salad with quinoa, beetroot, datterini & olives\",\"price\":2250}],\"Restaurant{id=100006, dateTime=2019-08-16T13:00, name='White Rabbit'}\":[{\"id\":100016,\"name\":\"Squash tabbouleh \",\"price\":1275},{\"id\":100017,\"name\":\"The Ivy vegetarian Shepherds Pie\",\"price\":1433},{\"id\":100018,\"name\":\"Linguine primavera \",\"price\":1600}]}"));
+                .andExpect(content().string("{\"Restaurant{id=100005, registered=2019-08-16T13:00, name='Cafe Pushkin'}\":[{\"id\":100007,\"name\":\"Summer squash soup with creamed feta biscuits\",\"price\":875},{\"id\":100008,\"name\":\"Girolle, lemon & parsley risotto\",\"price\":1500},{\"id\":100009,\"name\":\"Mediterranean salad with quinoa, beetroot, datterini & olives\",\"price\":2250}],\"Restaurant{id=100006, registered=2019-08-16T13:00, name='White Rabbit'}\":[{\"id\":100016,\"name\":\"Squash tabbouleh \",\"price\":1275},{\"id\":100017,\"name\":\"The Ivy vegetarian Shepherds Pie\",\"price\":1433},{\"id\":100018,\"name\":\"Linguine primavera \",\"price\":1600}]}"));
     }
 
     @Test

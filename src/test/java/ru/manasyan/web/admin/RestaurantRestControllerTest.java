@@ -25,7 +25,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("{\"Restaurant{id=100005, dateTime=2019-08-16T13:00, name='Cafe Pushkin'}\":[{\"id\":100019,\"name\":\"Summer squash soup with creamed feta biscuits\",\"price\":875},{\"id\":100020,\"name\":\"Girolle, lemon & parsley risotto\",\"price\":1500},{\"id\":100021,\"name\":\"Mediterranean salad with quinoa, beetroot, datterini & olives\",\"price\":2250}],\"Restaurant{id=100004, dateTime=2019-08-16T13:00, name='The Ivy'}\":[],\"Restaurant{id=100006, dateTime=2019-08-16T13:00, name='White Rabbit'}\":[{\"id\":100022,\"name\":\"The Ivy vegetarian Shepherds Pie\",\"price\":1433},{\"id\":100023,\"name\":\"Linguine primavera \",\"price\":1600}]}"));
+                .andExpect(content().string("{\"Restaurant{id=100005, registered=2019-08-16T13:00, name='Cafe Pushkin'}\":[{\"id\":100019,\"name\":\"Summer squash soup with creamed feta biscuits\",\"price\":875},{\"id\":100020,\"name\":\"Girolle, lemon & parsley risotto\",\"price\":1500},{\"id\":100021,\"name\":\"Mediterranean salad with quinoa, beetroot, datterini & olives\",\"price\":2250}],\"Restaurant{id=100004, registered=2019-08-16T13:00, name='The Ivy'}\":[],\"Restaurant{id=100006, registered=2019-08-16T13:00, name='White Rabbit'}\":[{\"id\":100022,\"name\":\"The Ivy vegetarian Shepherds Pie\",\"price\":1433},{\"id\":100023,\"name\":\"Linguine primavera \",\"price\":1600}]}"));
     }
 
     @Test
@@ -39,7 +39,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk());
 
         Restaurant returned = readFromJson(action, Restaurant.class);
-        assertThat(returned).isEqualToIgnoringGivenFields(restaurant, "dateTime", "id");
+        assertThat(returned).isEqualToIgnoringGivenFields(restaurant, "registered", "id");
     }
 
     @Test
@@ -52,7 +52,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("{\"id\":100005,\"name\":\"New Restaurant\",\"dateTime\":\"2019-08-16T13:00:00\"}"));
+                .andExpect(content().string("{\"id\":100005,\"name\":\"New Restaurant\",\"registered\":\"2019-08-16T13:00:00\"}"));
     }
 
     @Test
@@ -65,8 +65,7 @@ public class RestaurantRestControllerTest extends AbstractControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_RESTAURANT + "100006")
                 .with(userHttpBasic(ADMIN)))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string(""));
+                .andExpect(status().isUnprocessableEntity());
     }
 
     @Test

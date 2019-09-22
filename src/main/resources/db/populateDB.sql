@@ -12,7 +12,7 @@ INSERT INTO users (name, email, password) VALUES
 ('User2', 'user2@gmail.com', '{noop}password'),
 ('User3', 'user3@gmail.com', '{noop}password');
 
-INSERT INTO restaurants (date_time, name)
+INSERT INTO restaurants (registered, name)
 VALUES ('2019-08-16 13:00:00', 'The Ivy'),
        ('2019-08-16 13:00:00', 'Cafe Pushkin'),
        ('2019-08-16 13:00:00', 'White Rabbit');
