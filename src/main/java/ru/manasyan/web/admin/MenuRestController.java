@@ -13,9 +13,10 @@ import java.time.LocalDate;
 
 import static ru.manasyan.util.ValidationUtil.assureIdConsistent;
 import static ru.manasyan.util.ValidationUtil.checkNew;
+import static ru.manasyan.web.admin.AbstractRestController.REST_URL;
 
 @RestController
-@RequestMapping(value = "/rest/restaurants",  produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = REST_URL,  produces = MediaType.APPLICATION_JSON_VALUE)
 public class MenuRestController extends AbstractRestController {
 
     @PostMapping(value ="/{id}/dishes")

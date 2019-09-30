@@ -23,21 +23,21 @@ public class DishRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("{\"Restaurant{id=100005, registered=2019-08-16T13:00, name='Cafe Pushkin'}\":[{\"id\":100007,\"name\":\"Summer squash soup with creamed feta biscuits\",\"price\":875},{\"id\":100008,\"name\":\"Girolle, lemon & parsley risotto\",\"price\":1500},{\"id\":100009,\"name\":\"Mediterranean salad with quinoa, beetroot, datterini & olives\",\"price\":2250}],\"Restaurant{id=100006, registered=2019-08-16T13:00, name='White Rabbit'}\":[{\"id\":100016,\"name\":\"Squash tabbouleh \",\"price\":1275},{\"id\":100017,\"name\":\"The Ivy vegetarian Shepherds Pie\",\"price\":1433},{\"id\":100018,\"name\":\"Linguine primavera \",\"price\":1600}]}"));
+                .andExpect(content().string("[{\"id\":100005,\"name\":\"Cafe Pushkin\",\"registered\":\"2019-08-16T13:00:00\",\"dishes\":[{\"id\":100007,\"name\":\"Summer squash soup with creamed feta biscuits\",\"price\":875,\"date\":\"2019-08-16\"},{\"id\":100008,\"name\":\"Girolle, lemon & parsley risotto\",\"price\":1500,\"date\":\"2019-08-16\"},{\"id\":100009,\"name\":\"Mediterranean salad with quinoa, beetroot, datterini & olives\",\"price\":2250,\"date\":\"2019-08-16\"}]},{\"id\":100006,\"name\":\"White Rabbit\",\"registered\":\"2019-08-16T13:00:00\",\"dishes\":[{\"id\":100016,\"name\":\"Squash tabbouleh \",\"price\":1275,\"date\":\"2019-08-16\"},{\"id\":100017,\"name\":\"The Ivy vegetarian Shepherds Pie\",\"price\":1433,\"date\":\"2019-08-16\"},{\"id\":100018,\"name\":\"Linguine primavera \",\"price\":1600,\"date\":\"2019-08-16\"}]}]"));
     }
 
     @Test
     void vote() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL_MENU + "/vote/100006")
+        mockMvc.perform(MockMvcRequestBuilders.post(REST_URL_MENU + "/100006/vote")
                 .with(userHttpBasic(USER3)))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(content().string("true"));
+                .andExpect(status().isOk());
     }
 
     @Test
     void history() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_MENU + "/vote/history")
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_MENU + "/votes")
                 .with(userHttpBasic(USER3)))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -46,7 +46,7 @@ public class DishRestControllerTest extends AbstractControllerTest {
 
     @Test
     void historyMenu() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_MENU + "/restaurants/100005/2019-08-26")
+        mockMvc.perform(MockMvcRequestBuilders.get(REST_URL_MENU + "/100005/2019-08-26")
                 .with(userHttpBasic(USER3)))
                 .andExpect(status().isOk())
                 .andDo(print())

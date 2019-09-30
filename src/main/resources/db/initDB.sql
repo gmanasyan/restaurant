@@ -67,7 +67,7 @@ CREATE TABLE votes
 );
 
 CREATE UNIQUE INDEX votes_unique_date_user_idx
-    ON votes (date, user_id);
+    ON votes (user_id, date);
 
 CREATE TABLE history
 (

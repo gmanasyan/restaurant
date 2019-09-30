@@ -18,9 +18,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static ru.manasyan.util.Util.currentDateTime;
+import static ru.manasyan.web.admin.AbstractRestController.REST_URL;
 
 @RestController
-@RequestMapping(value = "/rest/restaurants",  produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = REST_URL,  produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteRestController extends AbstractRestController {
 
     // Ver 1| Search by votes database for today
@@ -29,8 +30,9 @@ public class VoteRestController extends AbstractRestController {
     public Map<Restaurant, Long> todayVotes() {
         log.info("View today votes for all restaurants");
         List<VotesStatistics> votes = voteService.get(currentDateTime().toLocalDate());
+        Map<Integer, Restaurant> restaurants = restaurants();
         Map<Restaurant, Long> votesRestaurant = votes.stream()
-                .collect(Collectors.toMap(v -> restaurants().get(v.getRestaurant()), v -> v.getVotes() ));
+                .collect(Collectors.toMap(v -> restaurants.get(v.getRestaurant()), v -> v.getVotes() ));
         return votesRestaurant;
     }
 
@@ -51,8 +53,9 @@ public class VoteRestController extends AbstractRestController {
     }
 
     public List<HistoryTo> addRestaurant(List<History> histories) {
+       Map<Integer, Restaurant> restaurants = restaurants();
        return histories.stream()
-               .map(h -> new HistoryTo(h.getId(), restaurants().get(h.getRestaurant_id()), h.getDate(), h.getVotes()))
+               .map(h -> new HistoryTo(h.getId(), restaurants.get(h.getRestaurant_id()), h.getDate(), h.getVotes()))
                .collect(Collectors.toList());
     }
 }

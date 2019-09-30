@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(columnNames = "name", name = "restaurants_unique_name_idx")})
@@ -24,13 +25,21 @@ public class Restaurant extends AbstractBaseEntity {
     @DateTimeFormat(pattern = Util.DATE_TIME_PATTERN)
     private LocalDateTime registered;
 
+    @OneToMany(mappedBy = "restaurant")
+    private List<Dish> dishes;
+
     public Restaurant () {
     }
 
     public Restaurant (Integer id, String name, LocalDateTime registered) {
+        this(id, name, registered, null);
+    }
+
+    public Restaurant (Integer id, String name, LocalDateTime registered, List<Dish> dishes) {
         super(id);
         this.name = name;
         this.registered = registered;
+        this.dishes = dishes;
     }
 
     public String getName() {
@@ -41,12 +50,16 @@ public class Restaurant extends AbstractBaseEntity {
         this.name = name;
     }
 
-    public LocalDateTime getDateTime() {
+    public LocalDateTime getRegistered() {
         return registered;
     }
 
-    public void setDateTime(LocalDateTime registered) {
+    public void setRegistered(LocalDateTime registered) {
         this.registered = registered;
+    }
+
+    public List<Dish> getDishes() {
+        return dishes;
     }
 
     @Override

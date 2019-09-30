@@ -1,5 +1,6 @@
 package ru.manasyan.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
@@ -29,6 +30,7 @@ public class Dish extends AbstractBaseEntity {
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull(groups = View.Persist.class)
+    @JsonIgnore
     private Restaurant restaurant;
 
     @Column(name = "date", nullable = false)

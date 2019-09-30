@@ -25,8 +25,7 @@ public class Util {
     }
 
     public static boolean canVote(String voteEndTime) {
-        return (currentDateTime().toLocalTime().isAfter(LocalTime.parse(voteEndTime)))
-                ? false : true;
+        return !currentDateTime().toLocalTime().isAfter(LocalTime.parse(voteEndTime));
     }
 
     public static User updateFromTo(UserToIn userTo, User user) {

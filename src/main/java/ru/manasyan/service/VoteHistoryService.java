@@ -2,6 +2,7 @@ package ru.manasyan.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.manasyan.model.History;
 import ru.manasyan.repository.CrudVoteHistoryRepository;
 
@@ -24,6 +25,7 @@ public class VoteHistoryService {
         return histories;
     }
 
+    @Transactional
     public void increase(Integer restaurant_id, LocalDate date) {
         History history = crudVoteHistoryRepository.get(date, restaurant_id);
 
@@ -36,6 +38,7 @@ public class VoteHistoryService {
         crudVoteHistoryRepository.save(history);
     }
 
+    @Transactional
     public void decrease(Integer restaurant_id, LocalDate date) throws Exception {
         History history = crudVoteHistoryRepository.get(date, restaurant_id);
 

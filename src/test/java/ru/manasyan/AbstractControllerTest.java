@@ -29,9 +29,9 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 
 public abstract class AbstractControllerTest {
 
-    protected static final String REST_URL_MENU = "/rest/menu/";
+    protected static final String REST_URL_MENU = "/rest/";
     protected static final String REST_URL_PROFILE = "/rest/profile/";
-    protected static final String REST_URL_RESTAURANT = "/rest/restaurants/";
+    protected static final String REST_URL_RESTAURANT = "/rest/admin/restaurants/";
 
     protected static Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
 

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public abstract class AbstractRestController {
 
-    static final String REST_URL = "/rest/restaurants";
+    static final String REST_URL = "/rest/admin/restaurants";
 
     protected Logger log = LoggerFactory.getLogger(getClass());
 

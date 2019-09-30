@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +17,11 @@ import ru.manasyan.model.Vote;
 import ru.manasyan.repository.CrudDishRepository;
 import ru.manasyan.repository.CrudRestaurantRepository;
 import ru.manasyan.service.VoteService;
-import ru.manasyan.to.DishTo;
+import ru.manasyan.to.RestaurantTo;
 import ru.manasyan.web.SecurityUtil;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import static ru.manasyan.util.Util.*;
@@ -30,7 +31,7 @@ import static ru.manasyan.util.Util.*;
 @PropertySource("classpath:app.properties")
 public class DishRestController {
 
-    static final String REST_URL = "/rest/menu";
+    static final String REST_URL = "/rest";
 
     @Value("${vote.endTime}")
     private String voteEndTime;
@@ -47,40 +48,38 @@ public class DishRestController {
     private CrudRestaurantRepository restaurantRepository;
 
     @GetMapping
-    public Map<Restaurant, List<DishTo>> getAll() throws Exception {
+    public List<RestaurantTo> getAll() throws Exception {
         log.info("View today menu for all restaurants");
         return getAllByDate(currentDateTime().toLocalDate());
     }
 
     @GetMapping("/{date}")
     @Transactional(readOnly = true)
-    public Map<Restaurant, List<DishTo>> getAllByDate(@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("date") LocalDate date) throws Exception {
+    public List<RestaurantTo> getAllByDate(@DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("date") LocalDate date) throws Exception {
         int userId = SecurityUtil.authUserId();
         log.info("View menu by date {} for all restaurants by user {}", date, userId);
-        List<Dish> allDishes = dishRepository.getAll(date);
-        Map<Integer, List<Dish>> map = allDishes.stream()
-                .collect(Collectors.groupingBy(d -> d.getRestaurant().getId()));
 
-        List<Restaurant> restaurants = restaurantRepository.getAll();
-        Map<Integer, Restaurant> restaurantMap = restaurants.stream()
-                .collect(Collectors.toMap(r -> r.getId(), r -> r));
+        List<Restaurant> restaurants = restaurantRepository.getAllWithMeals(date);
 
-        Map<Restaurant, List<DishTo>> collect = map.entrySet().stream()
-                .collect(Collectors.toMap(e -> restaurantMap.get(e.getKey()), e -> toDishTo(e.getValue())));
+        List<RestaurantTo> collect = restaurants.stream()
+                .map(r -> new RestaurantTo(r.getId(), r.getName(), r.getRegistered(), r.getDishes()))
+                .collect(Collectors.toList());
+
         return collect;
     }
 
-    @PostMapping("/vote/{id}")
-    public boolean vote(@PathVariable("id") int restaurant_id) throws Exception {
+    @PostMapping("/{id}/vote")
+    @ResponseStatus(HttpStatus.OK)
+    public void vote(@PathVariable("id") int restaurantId) throws Exception {
         int userId = SecurityUtil.authUserId();
-        log.info("Vote for restaurant {} by user", restaurant_id, userId);
+        log.info("Vote for restaurant {} by user {}", restaurantId, userId);
         if (voteService.get(userId, LocalDate.now()) != null && !canVote(voteEndTime)) {
-            return false;
+            throw new DataIntegrityViolationException("User can't vote second time after 11:00");
         }
-        return voteService.update(userId, restaurant_id, LocalDate.now());
+        voteService.update(userId, restaurantId, LocalDate.now());
     }
 
-    @GetMapping("/vote/history")
+    @GetMapping("/votes")
     public List<Vote> history() throws Exception {
         int userId = SecurityUtil.authUserId();
         log.info("View vote history for user {}", userId);
@@ -88,7 +87,7 @@ public class DishRestController {
         return votes;
     }
 
-    @GetMapping("/restaurants/{id}/{date}")
+    @GetMapping("/{id}/{date}")
     public List<Dish> restaurantMenu(@PathVariable("id") int restaurant_id, @DateTimeFormat(pattern = "yyyy-MM-dd") @PathVariable("date") LocalDate date) throws Exception {
         int userId = SecurityUtil.authUserId();
         log.info("View menu for restaurant {} by date {} for user {}", restaurant_id, date, userId);

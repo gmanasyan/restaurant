@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import ru.manasyan.model.Dish;
 import ru.manasyan.model.Restaurant;
 import ru.manasyan.to.DishTo;
@@ -20,9 +19,10 @@ import java.util.stream.Collectors;
 import static ru.manasyan.util.Util.currentDateTime;
 import static ru.manasyan.util.ValidationUtil.assureIdConsistent;
 import static ru.manasyan.util.ValidationUtil.checkNew;
+import static ru.manasyan.web.admin.AbstractRestController.REST_URL;
 
 @RestController
-@RequestMapping(value = "/rest/restaurants",  produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = REST_URL,  produces = MediaType.APPLICATION_JSON_VALUE)
 @Transactional
 public class RestaurantRestController extends AbstractRestController {
 
@@ -30,17 +30,18 @@ public class RestaurantRestController extends AbstractRestController {
     @Transactional(readOnly = true)
     public Map<Restaurant, List<DishTo>> viewAll() {
 
-        List<Restaurant> restaurants = restaurantRepository.getAll();
+        List<Restaurant> restaurantList = restaurantRepository.getAll();
 
         List<Dish> dishes = dishRepository.getAll(currentDateTime().toLocalDate());
 
         Map<Integer, List<Dish>> map = dishes.stream()
                 .collect(Collectors.groupingBy(d -> d.getRestaurant().getId()));
 
+        Map<Integer, Restaurant> restaurants = restaurants();
         Map<Restaurant, List<DishTo>> collect = map.entrySet().stream()
-                .collect(Collectors.toMap(e -> restaurants().get(e.getKey()), e -> toDishTo(e.getValue())));
+                .collect(Collectors.toMap(e -> restaurants.get(e.getKey()), e -> toDishTo(e.getValue())));
 
-        restaurants.forEach(r -> collect.putIfAbsent(r, new ArrayList<>()));
+        restaurantList.forEach(r -> collect.putIfAbsent(r, new ArrayList<>()));
 
         return collect;
     }
@@ -55,7 +56,7 @@ public class RestaurantRestController extends AbstractRestController {
     public Restaurant createRestaurant(@Valid @RequestBody Restaurant restaurant) {
         log.info("Create restaurant {} ", restaurant.toString());
         checkNew(restaurant);
-        restaurant.setDateTime(LocalDateTime.now());
+        restaurant.setRegistered(LocalDateTime.now());
         return restaurantRepository.save(restaurant);
     }
 
@@ -64,7 +65,7 @@ public class RestaurantRestController extends AbstractRestController {
     public Restaurant updateRestaurant(@Valid @RequestBody Restaurant restaurant, @PathVariable("id") int id) throws Exception {
         log.info("Update restaurant {} with data {} ", id, restaurant.toString());
         assureIdConsistent(restaurant, id);
-        restaurant.setDateTime(restaurantRepository.findById(id).orElseThrow(() -> new IllegalRequestDataException(dbRestaurant)).getDateTime());
+        restaurant.setRegistered(restaurantRepository.findById(id).orElseThrow(() -> new IllegalRequestDataException(dbRestaurant)).getRegistered());
         return restaurantRepository.save(restaurant);
     }
 
