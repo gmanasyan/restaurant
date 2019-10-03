@@ -37,6 +37,7 @@ public abstract class AbstractRestController {
 
     protected Map<Integer, Restaurant> restaurants() {
         List<Restaurant> restaurants = restaurantRepository.getAll();
-        return  restaurants.stream().collect(Collectors.toMap(r -> r.getId(), r -> r));
+        return  restaurants.stream()
+        .collect(Collectors.toMap(r -> r.getId(), r -> r));
     }
 }

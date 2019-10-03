@@ -115,10 +115,10 @@ Use for instance: curl --user admin@gmail.com:admin
 ### 02.1. View all restaurants with today menu.
 - Admin can view all today's menu, empty menu (what not included for regular user) or with dishes.
 - Empty restaurant menu need in case to add new dish there using restaurant id. 
-<br/>GET http://localhost:8080/voteapp/rest/restaurants/
+<br/>GET http://localhost:8080/voteapp/rest/admin/restaurants/
 
 Request:
- <pre>curl -s --user admin@gmail.com:admin "http://localhost:8080/voteapp/rest/restaurants/"</pre>
+ <pre>curl -s --user admin@gmail.com:admin "http://localhost:8080/voteapp/rest/admin/restaurants/"</pre>
  
 Response example for 3 restaurants:
  <pre> 
@@ -143,11 +143,11 @@ Response example for 3 restaurants:
 
 ### 02.2. Add restaurant
 - Admin can add new restaurant by 
-<br/>POST http://localhost:8080/voteapp/rest/restaurants/
+<br/>POST http://localhost:8080/voteapp/rest/admin/restaurants/
 
 Request: 
 <pre>
-curl -s --user admin@gmail.com:admin -X POST -d '{"name":"New Restaurant"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voteapp/rest/restaurants/
+curl -s --user admin@gmail.com:admin -X POST -d '{"name":"New Restaurant"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voteapp/rest/admin/restaurants/
 </pre>
 
 Response example:
@@ -158,11 +158,11 @@ Response example:
 
 ### 02.3. Edit restaurant
 - Admin can update restaurant by by it's id
-<br/>PUT http://localhost:8080/voteapp/rest/restaurants/{id}
+<br/>PUT http://localhost:8080/voteapp/rest/admin/restaurants/{id}
 
 Request: 
 <pre>
-curl -s --user admin@gmail.com:admin -X PUT -d '{"id":100006, "name":"Updated Restaurant"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voteapp/rest/restaurants/100006
+curl -s --user admin@gmail.com:admin -X PUT -d '{"id":100006, "name":"Updated Restaurant"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voteapp/rest/admin/restaurants/100006
 </pre>
 
 Response example:
@@ -173,21 +173,21 @@ Response example:
 
 ### 02.4. Remove restaurant
 - Admin can remove restaurant by it's id 
-<br/>DELETE http://localhost:8080/voteapp/rest/restaurants/{id}
+<br/>DELETE http://localhost:8080/voteapp/rest/admin/restaurants/{id}
 
 Request: 
 <pre>
-curl -s --user admin@gmail.com:admin -X DELETE http://localhost:8080/voteapp/rest/restaurants/100006
+curl -s --user admin@gmail.com:admin -X DELETE http://localhost:8080/voteapp/rest/admin/restaurants/100006
 </pre>
 
 
 ### 02.5. Add today menu dish for restaurant 
 - Admin can add new dishes by restaurant_id 
-<br/>POST http://localhost:8080/voteapp/rest/restaurants/{restaurant_id}/dishes
+<br/>POST http://localhost:8080/voteapp/rest/admin/restaurants/{restaurant_id}/dishes
 
 Request: 
 <pre>
-curl -s --user admin@gmail.com:admin -X POST -d '{"name":"New Dish", "price":4050}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voteapp/rest/restaurants/100006/dishes
+curl -s --user admin@gmail.com:admin -X POST -d '{"name":"New Dish", "price":4050}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voteapp/rest/admin/restaurants/100006/dishes
 </pre>
 
 Response example:
@@ -205,11 +205,11 @@ Response example:
 - Admin can edit dish by dish_id
 - Only today dish can be edited 
 
-<br/>PUT http://localhost:8080/voteapp/rest/restaurants/dishes/{dish_id}
+<br/>PUT http://localhost:8080/voteapp/rest/admin/restaurants/dishes/{dish_id}
 
 Request: 
 <pre>
-curl -s --user admin@gmail.com:admin -X PUT -d '{"id":100022, "name":"Updated Dish", "price":1010}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voteapp/rest/restaurants/dishes/100022
+curl -s --user admin@gmail.com:admin -X PUT -d '{"id":100022, "name":"Updated Dish", "price":1010}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/voteapp/rest/admin/restaurants/dishes/100022
 </pre>
 
 <pre>
@@ -225,20 +225,20 @@ curl -s --user admin@gmail.com:admin -X PUT -d '{"id":100022, "name":"Updated Di
 - Admin can remove today dishes by its id
 - Only today  dish can be removed.
 
-<br/>DELETE http://localhost:8080/voteapp/rest/restaurants/dishes/{dish_id}
+<br/>DELETE http://localhost:8080/voteapp/rest/admin/restaurants/dishes/{dish_id}
 
 Request: 
 <pre>
-curl -s --user admin@gmail.com:admin -X DELETE http://localhost:8080/voteapp/rest/restaurants/dishes/100022
+curl -s --user admin@gmail.com:admin -X DELETE http://localhost:8080/voteapp/rest/admin/restaurants/dishes/100022
 </pre>
 
 
 ### 02.8. View today votes for all restaurants
 - Admin can view today votes for all restaurant by 
-<br/>GET http://localhost:8080/voteapp/rest/restaurants/votes/
+<br/>GET http://localhost:8080/voteapp/rest/admin/restaurants/votes/
 
 Request:
-<pre>curl -s --user admin@gmail.com:admin http://localhost:8080/voteapp/rest/restaurants/votes/
+<pre>curl -s --user admin@gmail.com:admin http://localhost:8080/voteapp/rest/admin/restaurants/votes/
 </pre>
  
 Response example:
@@ -252,10 +252,10 @@ Response example:
 
 ### 02.9. View votes by date 
 - Admin can view votes history for restaurants by date 
-<br/>GET http://localhost:8080/voteapp/rest/restaurants/votes/{date}/
+<br/>GET http://localhost:8080/voteapp/rest/admin/restaurants/votes/{date}/
 
 Request:
-<pre>curl -s --user admin@gmail.com:admin http://localhost:8080/voteapp/rest/restaurants/votes/2019-08-27
+<pre>curl -s --user admin@gmail.com:admin http://localhost:8080/voteapp/rest/admin/restaurants/votes/2019-08-27
 </pre>
 
 Response example:
@@ -272,10 +272,10 @@ Response example:
 
 ### 02.10. Vote History for restaurant
 - Admin can view vote history for restaurant by 
-<br/>GET http://localhost:8080/voteapp/rest/restaurants/{id}/votes/
+<br/>GET http://localhost:8080/voteapp/rest/admin/restaurants/{id}/votes/
 
 Request:
-<pre>curl -s --user admin@gmail.com:admin http://localhost:8080/voteapp/rest/restaurants/100005/votes
+<pre>curl -s --user admin@gmail.com:admin http://localhost:8080/voteapp/rest/admin/restaurants/100005/votes
 </pre>
 
 Response example:

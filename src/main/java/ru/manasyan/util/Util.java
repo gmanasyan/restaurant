@@ -14,18 +14,10 @@ public class Util {
 
     public static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm";
 
-    public static LocalDateTime currentDateTime() {
-        return LocalDateTime.now();
-    }
-
     public static List<DishTo> toDishTo(List<Dish> dishes) {
         return  dishes.stream()
                 .map(d -> new DishTo(d.getId(), d.getName(), d.getPrice()))
                 .collect(Collectors.toList());
-    }
-
-    public static boolean canVote(String voteEndTime) {
-        return !currentDateTime().toLocalTime().isAfter(LocalTime.parse(voteEndTime));
     }
 
     public static User updateFromTo(UserToIn userTo, User user) {

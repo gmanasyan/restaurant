@@ -1,13 +1,14 @@
 package ru.manasyan.to;
 
-import ru.manasyan.model.AbstractBaseEntity;
 import ru.manasyan.model.Restaurant;
-
 import java.time.LocalDate;
 
-public class HistoryTo extends AbstractBaseEntity {
+public class HistoryTo extends BaseTo {
 
-    private Restaurant restaurant;
+
+    private Integer restaurant_id;
+
+    private String restaurant;
 
     private LocalDate date;
 
@@ -18,16 +19,25 @@ public class HistoryTo extends AbstractBaseEntity {
 
     public HistoryTo(Integer id, Restaurant restaurant, LocalDate date, Integer votes) {
         super(id);
-        this.restaurant = restaurant;
+        this.restaurant = restaurant.getName();
+        this.restaurant_id = restaurant.getId();
         this.date = date;
         this.votes = votes;
     }
 
-    public Restaurant getRestaurant() {
+    public Integer getRestaurant_id() {
+        return restaurant_id;
+    }
+
+    public void setRestaurant_id(Integer restaurant_id) {
+        this.restaurant_id = restaurant_id;
+    }
+
+    public String getRestaurant() {
         return restaurant;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
+    public void setRestaurant(String restaurant) {
         this.restaurant = restaurant;
     }
 
@@ -47,10 +57,12 @@ public class HistoryTo extends AbstractBaseEntity {
         this.votes = votes;
     }
 
+
     @Override
     public String toString() {
         return "HistoryTo{" +
-                "restaurant=" + restaurant +
+                "restaurant_id=" + restaurant_id +
+                ", restaurant='" + restaurant + '\'' +
                 ", date=" + date +
                 ", votes=" + votes +
                 '}';

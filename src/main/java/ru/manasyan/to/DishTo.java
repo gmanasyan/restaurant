@@ -1,9 +1,7 @@
 package ru.manasyan.to;
 
 
-import ru.manasyan.model.AbstractBaseEntity;
-
-public class DishTo extends AbstractBaseEntity {
+public class DishTo extends BaseTo {
 
     private String name;
 

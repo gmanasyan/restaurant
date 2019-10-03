@@ -1,12 +1,10 @@
 package ru.manasyan.to;
 
 import org.hibernate.validator.constraints.SafeHtml;
-import ru.manasyan.model.AbstractBaseEntity;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class UserToIn extends AbstractBaseEntity {
+public class UserToIn extends BaseTo {
 
     @NotBlank
     @Size(min = 2, max = 100, message = "length must be between 2 and 100 characters")

@@ -10,13 +10,13 @@ import ru.manasyan.to.DishTo;
 import ru.manasyan.util.exception.IllegalRequestDataException;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static ru.manasyan.util.Util.currentDateTime;
 import static ru.manasyan.util.ValidationUtil.assureIdConsistent;
 import static ru.manasyan.util.ValidationUtil.checkNew;
 import static ru.manasyan.web.admin.AbstractRestController.REST_URL;
@@ -28,11 +28,12 @@ public class RestaurantRestController extends AbstractRestController {
 
     @GetMapping
     @Transactional(readOnly = true)
-    public Map<Restaurant, List<DishTo>> viewAll() {
+    public Map<Restaurant, List<DishTo>> viewAllToday() {
+        log.info("View All Restaurants");
 
         List<Restaurant> restaurantList = restaurantRepository.getAll();
 
-        List<Dish> dishes = dishRepository.getAll(currentDateTime().toLocalDate());
+        List<Dish> dishes = dishRepository.getAll(LocalDate.now());
 
         Map<Integer, List<Dish>> map = dishes.stream()
                 .collect(Collectors.groupingBy(d -> d.getRestaurant().getId()));

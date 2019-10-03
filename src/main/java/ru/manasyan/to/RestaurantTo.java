@@ -8,9 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RestaurantTo {
-
-    private int id;
+public class RestaurantTo extends BaseTo {
 
     private String name;
 
@@ -23,7 +21,7 @@ public class RestaurantTo {
     }
 
     public RestaurantTo(int id, String name, LocalDateTime registered, List<Dish> dishes) {
-        this.id = id;
+        super(id);
         this.name = name;
         this.registered = registered;
         this.dishes = dishes;
@@ -31,10 +29,6 @@ public class RestaurantTo {
 
     public RestaurantTo(Restaurant restaurant, List<Dish> dishes) {
         this(restaurant.getId(), restaurant.getName(), restaurant.getRegistered(), dishes);
-    }
-
-    public int getId() {
-        return id;
     }
 
     public String getName() {

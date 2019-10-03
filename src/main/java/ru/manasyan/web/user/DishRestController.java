@@ -21,6 +21,7 @@ import ru.manasyan.to.RestaurantTo;
 import ru.manasyan.web.SecurityUtil;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +37,8 @@ public class DishRestController {
     @Value("${vote.endTime}")
     private String voteEndTime;
 
+    private LocalTime voteEnd;
+
     private Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -50,7 +53,7 @@ public class DishRestController {
     @GetMapping
     public List<RestaurantTo> getAll() throws Exception {
         log.info("View today menu for all restaurants");
-        return getAllByDate(currentDateTime().toLocalDate());
+        return getAllByDate(LocalDate.now());
     }
 
     @GetMapping("/{date}")
@@ -72,8 +75,11 @@ public class DishRestController {
     @ResponseStatus(HttpStatus.OK)
     public void vote(@PathVariable("id") int restaurantId) throws Exception {
         int userId = SecurityUtil.authUserId();
-        log.info("Vote for restaurant {} by user {}", restaurantId, userId);
-        if (voteService.get(userId, LocalDate.now()) != null && !canVote(voteEndTime)) {
+        log.info("Vote for restaurant {} by user {}. Vote end time", restaurantId, userId, voteEnd);
+
+        if (voteEnd == null) { voteEnd = LocalTime.parse(voteEndTime); }
+
+        if (voteService.get(userId, LocalDate.now()) != null && LocalTime.now().isAfter(voteEnd)) {
             throw new DataIntegrityViolationException("User can't vote second time after 11:00");
         }
         voteService.update(userId, restaurantId, LocalDate.now());
